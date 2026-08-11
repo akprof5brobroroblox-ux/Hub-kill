@@ -1,5 +1,5 @@
 -- ========================================================
--- HUBKILL MEGA PRO v12.0 - FAST OPEN ICON & NO BLACKSCREEN
+-- HUBKILL MEGA PRO v13.0 - ULTIMATE MERGED EDITION
 -- ========================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -13,7 +13,6 @@ local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 
--- Очистка старой версии
 if CoreGui:FindFirstChild("MobileHubUI") then
     CoreGui.MobileHubUI:Destroy()
 end
@@ -27,7 +26,6 @@ local CurrentAccent = Color3.fromRGB(0, 170, 255)
 local CurrentThemeBg = Color3.fromRGB(16, 16, 22)
 local CurrentLang = "RU"
 
--- [[ ГЛОБАЛЬНЫЕ НАСТРОЙКИ ]]
 _G.HubKill_Settings = {
     AimLock = false, InfJump = false,
     ESP_Murd = false, ESP_Sher = false, ESP_Inn = false,
@@ -37,7 +35,6 @@ _G.HubKill_Settings = {
     FPS_Counter = false, FPS_Boost = false
 }
 
--- [[ СЛОВАРЬ ЯЗЫКОВ (10 СТРАН) ]]
 local Translations = {
     RU = {Title="Персонаж", ESP="ESP", Settings="Настройки", Sheriff="Шериф", Visuals="Визуалы", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Язык / Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Счетчик FPS", Boost="Убрать лаги (Boost)"},
     EN = {Title="Character", ESP="ESP", Settings="Settings", Sheriff="Sheriff", Visuals="Visuals", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="FPS Counter", Boost="FPS Boost"},
@@ -51,7 +48,6 @@ local Translations = {
     PL = {Title="Postać", ESP="ESP", Settings="Ustawienia", Sheriff="Szeryf", Visuals="Wizualia", Aim="AimLock", Jump="InfJump", Murd="Morderca ESP", Sher="Szeryf ESP", Inn="Niewinny ESP", Lang="Język", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Licznik FPS", Boost="FPS Boost"}
 }
 
--- ЭФФЕКТ СИЯНИЯ ЗВЕЗДАМИ
 local function CreateStarEffect(btn)
     local star = Instance.new("TextLabel")
     star.Size = UDim2.new(0, 20, 0, 20); star.Position = UDim2.new(0.8, 0, 0.2, 0); star.BackgroundTransparency = 1; star.Text = "✨"; star.TextSize = 14; star.Parent = btn
@@ -59,62 +55,21 @@ local function CreateStarEffect(btn)
     tween:Play(); tween.Completed:Connect(function() star:Destroy() end)
 end
 
----------------------------------------------------------
--- 1. СИНИЙ КВАДРАТИК СВОРАЧИВАНИЯ (ОТКРЫТИЕ МЕНЮ)
----------------------------------------------------------
 local ToggleBtn = Instance.new("TextButton")
-ToggleBtn.Name = "OpenIcon"
-ToggleBtn.Parent = ScreenGui
-ToggleBtn.BackgroundColor3 = Color3.fromRGB(10, 25, 45)
-ToggleBtn.Position = UDim2.new(0.02, 0, 0.4, 0)
-ToggleBtn.Size = UDim2.new(0, 52, 0, 52)
-ToggleBtn.Text = "HubKill"
-ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleBtn.TextSize = 12
-ToggleBtn.Font = Enum.Font.GothamBold
-ToggleBtn.Active = true
-ToggleBtn.Draggable = true
-
+ToggleBtn.Name = "OpenIcon"; ToggleBtn.Parent = ScreenGui; ToggleBtn.BackgroundColor3 = Color3.fromRGB(10, 25, 45); ToggleBtn.Position = UDim2.new(0.02, 0, 0.4, 0); ToggleBtn.Size = UDim2.new(0, 52, 0, 52); ToggleBtn.Text = "HubKill"; ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255); ToggleBtn.TextSize = 12; ToggleBtn.Font = Enum.Font.GothamBold; ToggleBtn.Active = true; ToggleBtn.Draggable = true
 Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(0, 10)
-local ToggleStroke = Instance.new("UIStroke", ToggleBtn)
-ToggleStroke.Color = CurrentAccent
-ToggleStroke.Thickness = 2
+local ToggleStroke = Instance.new("UIStroke", ToggleBtn); ToggleStroke.Color = CurrentAccent; ToggleStroke.Thickness = 2
 
----------------------------------------------------------
--- 2. ГЛАВНОЕ МЕНЮ (500x320)
----------------------------------------------------------
 local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = ScreenGui
-MainFrame.Size = UDim2.new(0, 0, 0, 0)
-MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-MainFrame.BackgroundColor3 = CurrentThemeBg
-MainFrame.ClipsDescendants = true
-MainFrame.Visible = false
-
+MainFrame.Name = "MainFrame"; MainFrame.Parent = ScreenGui; MainFrame.Size = UDim2.new(0, 0, 0, 0); MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0); MainFrame.AnchorPoint = Vector2.new(0.5, 0.5); MainFrame.BackgroundColor3 = CurrentThemeBg; MainFrame.ClipsDescendants = true; MainFrame.Visible = false
 Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
-local MainUIStroke = Instance.new("UIStroke", MainFrame)
-MainUIStroke.Color = CurrentAccent
-MainUIStroke.Thickness = 1.5
+local MainUIStroke = Instance.new("UIStroke", MainFrame); MainUIStroke.Color = CurrentAccent; MainUIStroke.Thickness = 1.5
 
--- Header
 local Header = Instance.new("Frame")
-Header.Size = UDim2.new(1, 0, 0, 35)
-Header.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
-Header.BorderSizePixel = 0
-Header.Parent = MainFrame
+Header.Size = UDim2.new(1, 0, 0, 35); Header.BackgroundColor3 = Color3.fromRGB(22, 22, 30); Header.BorderSizePixel = 0; Header.Parent = MainFrame
 
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -90, 1, 0)
-Title.Position = UDim2.new(0, 12, 0, 0)
-Title.Text = "HubKill Mega Pro v12.0"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 15
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.BackgroundTransparency = 1
-Title.Parent = Header
+Title.Size = UDim2.new(1, -90, 1, 0); Title.Position = UDim2.new(0, 12, 0, 0); Title.Text = "HubKill Mega Pro v13.0"; Title.TextColor3 = Color3.fromRGB(255, 255, 255); Title.Font = Enum.Font.GothamBold; Title.TextSize = 15; Title.TextXAlignment = Enum.TextXAlignment.Left; Title.BackgroundTransparency = 1; Title.Parent = Header
 
 local GreenDot = Instance.new("Frame"); GreenDot.Size = UDim2.new(0, 12, 0, 12); GreenDot.Position = UDim2.new(1, -65, 0.5, -6); GreenDot.BackgroundColor3 = Color3.fromRGB(50, 205, 50); GreenDot.Parent = Header
 Instance.new("UICorner", GreenDot).CornerRadius = UDim.new(1, 0)
@@ -125,7 +80,6 @@ Instance.new("UICorner", YellowExitBtn).CornerRadius = UDim.new(1, 0)
 local RedExitBtn = Instance.new("TextButton"); RedExitBtn.Size = UDim2.new(0, 14, 0, 14); RedExitBtn.Position = UDim2.new(1, -25, 0.5, -7); RedExitBtn.BackgroundColor3 = Color3.fromRGB(230, 50, 50); RedExitBtn.Text = "✕"; RedExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255); RedExitBtn.TextSize = 9; RedExitBtn.Font = Enum.Font.GothamBold; RedExitBtn.Parent = Header
 Instance.new("UICorner", RedExitBtn).CornerRadius = UDim.new(1, 0)
 
--- ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА
 local ConfirmFrame = Instance.new("Frame"); ConfirmFrame.Size = UDim2.new(0, 220, 0, 110); ConfirmFrame.Position = UDim2.new(0.5, -110, 0.5, -55); ConfirmFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35); ConfirmFrame.ZIndex = 20; ConfirmFrame.Visible = false; ConfirmFrame.Parent = ScreenGui
 Instance.new("UICorner", ConfirmFrame).CornerRadius = UDim.new(0, 10)
 local ConfirmStroke = Instance.new("UIStroke", ConfirmFrame); ConfirmStroke.Color = Color3.fromRGB(230, 50, 50)
@@ -151,14 +105,9 @@ end
 YellowExitBtn.MouseButton1Click:Connect(MinimizeMenu)
 ToggleBtn.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible 
-    if MainFrame.Visible then 
-        MainFrame:TweenSize(UDim2.new(0, 500, 0, 320), "Out", "Quart", 0.3) 
-    else 
-        MinimizeMenu() 
-    end
+    if MainFrame.Visible then MainFrame:TweenSize(UDim2.new(0, 500, 0, 320), "Out", "Quart", 0.3) else MinimizeMenu() end
 end)
 
--- 3. БОКОВАЯ ПАНЕЛЬ И СТРАНИЦЫ
 local SideBar = Instance.new("Frame"); SideBar.Size = UDim2.new(0, 115, 1, -35); SideBar.Position = UDim2.new(0, 0, 0, 35); SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28); SideBar.BorderSizePixel = 0; SideBar.Parent = MainFrame
 Instance.new("UIListLayout", SideBar).Padding = UDim.new(0, 5)
 
@@ -169,12 +118,8 @@ local TabButtons = {}
 
 local function CreateTab(key, iconText, targetPageName)
     local Page = Instance.new("ScrollingFrame")
-    Page.Name = targetPageName; Page.Size = UDim2.new(1, -5, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 2; Page.CanvasSize = UDim2.new(0, 0, 0, 950); Page.Parent = ContentArea
-    
-    local grid = Instance.new("UIGridLayout", Page)
-    grid.CellSize = UDim2.new(0.48, 0, 0, 32)
-    grid.CellPadding = UDim2.new(0.03, 0, 0, 8)
-
+    Page.Name = targetPageName; Page.Size = UDim2.new(1, -5, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 2; Page.CanvasSize = UDim2.new(0, 0, 0, 1200); Page.Parent = ContentArea
+    local grid = Instance.new("UIGridLayout", Page); grid.CellSize = UDim2.new(0.48, 0, 0, 32); grid.CellPadding = UDim2.new(0.03, 0, 0, 8)
     Pages[targetPageName] = Page
 
     local Btn = Instance.new("TextButton")
@@ -184,12 +129,8 @@ local function CreateTab(key, iconText, targetPageName)
     
     Btn.MouseButton1Click:Connect(function()
         CreateStarEffect(Btn)
-        for name, p in pairs(Pages) do 
-            p.Visible = false 
-            if TabButtons[name] then TabButtons[name].Button.BackgroundColor3 = Color3.fromRGB(28, 28, 38) end
-        end
-        Page.Visible = true
-        Btn.BackgroundColor3 = CurrentAccent
+        for name, p in pairs(Pages) do p.Visible = false; if TabButtons[name] then TabButtons[name].Button.BackgroundColor3 = Color3.fromRGB(28, 28, 38) end end
+        Page.Visible = true; Btn.BackgroundColor3 = CurrentAccent
     end)
     return Page
 end
@@ -203,26 +144,19 @@ local SettingsPage = CreateTab("Settings", "⚙", "Settings")
 Pages["Character"].Visible = true
 TabButtons["Character"].Button.BackgroundColor3 = CurrentAccent
 
--- КОМПАКТНЫЕ КНОПКИ УПРАВЛЕНИЯ
 local TogglesList = {}
-
 local function AddToggle(page, dictKey, settingKey)
-    local Switch = Instance.new("TextButton")
-    Switch.Size = UDim2.new(1, 0, 0, 32); Switch.Font = Enum.Font.GothamBold; Switch.TextSize = 10; Switch.Parent = page
+    local Switch = Instance.new("TextButton"); Switch.Size = UDim2.new(1, 0, 0, 32); Switch.Font = Enum.Font.GothamBold; Switch.TextSize = 10; Switch.Parent = page
     Instance.new("UICorner", Switch).CornerRadius = UDim.new(0, 6)
 
     local function UpdateVisual()
         local labelText = Translations[CurrentLang][dictKey] or dictKey
-        local state = _G.HubKill_Settings[settingKey]
-        if state then
-            Switch.BackgroundColor3 = Color3.fromRGB(35, 160, 75)
-            Switch.Text = labelText .. " [ON]"
+        if _G.HubKill_Settings[settingKey] then
+            Switch.BackgroundColor3 = Color3.fromRGB(35, 160, 75); Switch.Text = labelText .. " [ON]"
         else
-            Switch.BackgroundColor3 = Color3.fromRGB(180, 40, 50)
-            Switch.Text = labelText .. " [OFF]"
+            Switch.BackgroundColor3 = Color3.fromRGB(180, 40, 50); Switch.Text = labelText .. " [OFF]"
         end
     end
-
     UpdateVisual()
     table.insert(TogglesList, {Update = UpdateVisual})
 
@@ -233,7 +167,6 @@ local function AddToggle(page, dictKey, settingKey)
     end)
 end
 
--- ВКЛАДКИ
 AddToggle(CharPage, "Aim", "AimLock")
 AddToggle(CharPage, "Jump", "InfJump")
 AddToggle(CharPage, "SpeedGlitch", "SpeedGlitch")
@@ -261,7 +194,7 @@ AddToggle(EspPage, "Sher", "ESP_Sher")
 AddToggle(EspPage, "Inn", "ESP_Inn")
 
 ---------------------------------------------------------
--- 🎨 ВКЛАДКА "ВИЗУАЛЫ"
+-- ВСЕ ВИЗУАЛЫ, КРЫЛЬЯ, СЛЕДЫ, ОРУЖИЕ И ЭМОЦИИ
 ---------------------------------------------------------
 local function RemoveCurrentVisual()
     if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
@@ -317,7 +250,6 @@ AddVisualBtn("👻 Призрак", "GhostAura")
 AddVisualBtn("⚡ Шторм", "Lightning")
 AddVisualBtn("👑 Корона", "Crown")
 
--- Следы под ногами
 local function AddFootTrailBtn(text, trailType)
     local btn = Instance.new("TextButton", VisualPage)
     btn.Size = UDim2.new(1, 0, 0, 32); btn.BackgroundColor3 = Color3.fromRGB(35, 35, 45); btn.Text = text; btn.TextColor3 = Color3.fromRGB(255, 255, 255); btn.Font = Enum.Font.Gotham; btn.TextSize = 9
@@ -351,7 +283,6 @@ AddFootTrailBtn("⚡ Искры", "Electric")
 AddFootTrailBtn("🕳️ Тень", "Void")
 AddFootTrailBtn("❌ Без следов", "None")
 
--- Клиентское оружие
 local function GiveClientItem(itemName, isKnife)
     local tool = Instance.new("Tool"); tool.Name = "[Visual] " .. itemName; tool.RequiresHandle = true
     local handle = Instance.new("Part", tool); handle.Name = "Handle"; handle.Size = Vector3.new(1, 2, 1)
@@ -376,7 +307,6 @@ AddItemBtn("🔪 Chroma Laser", "Chroma Laser", true)
 AddItemBtn("🔪 Candy Knife", "Candy", true)
 AddItemBtn("🔫 Corrupt Gun", "Corrupt", false)
 
--- Эмоции
 local currentTrack = nil
 local function PlayEmote(animId)
     local char = LocalPlayer.Character
@@ -395,11 +325,10 @@ local function AddEmoteBtn(text, animId)
     btn.MouseButton1Click:Connect(function() CreateStarEffect(btn); PlayEmote(animId) end)
 end
 
-AddEmoteBtn("🧘 Эмоция: Zen", "333333131")
-AddEmoteBtn("🪑 Эмоция: Sit", "250622329")
-AddEmoteBtn("🕺 Эмоция: Dance", "182436842")
+AddEmoteBtn("🧘 Zen", "333333131")
+AddEmoteBtn("🪑 Sit", "250622329")
+AddEmoteBtn("🕺 Dance", "182436842")
 
--- Кастомное небо
 local function SetSky(skyId)
     local oldSky = Lighting:FindFirstChildOfClass("Sky")
     if oldSky then oldSky:Destroy() end
@@ -423,48 +352,38 @@ AddSkyBtn("🌌 Галактика", "159454299")
 AddSkyBtn("🔄 Сброс неба", "Reset")
 
 ---------------------------------------------------------
--- ⚙ НАСТРОЙКИ (ЯЗЫК, FPS И УБИРАНИЕ ЛАГОВ)
+-- НАСТРОЙКИ (FPS, BOOST И 10 ЯЗЫКОВ)
 ---------------------------------------------------------
 AddToggle(SettingsPage, "FPS", "FPS_Counter")
 AddToggle(SettingsPage, "Boost", "FPS_Boost")
 
--- FPS COUNTER
 local FpsLabel = Instance.new("TextLabel", ScreenGui)
 FpsLabel.Size = UDim2.new(0, 100, 0, 30); FpsLabel.Position = UDim2.new(1, -110, 0, 10); FpsLabel.BackgroundTransparency = 0.5; FpsLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 20); FpsLabel.TextColor3 = Color3.fromRGB(50, 255, 50); FpsLabel.Font = Enum.Font.GothamBold; FpsLabel.TextSize = 12; FpsLabel.Visible = false
 
 RunService.RenderStepped:Connect(function(dt)
     if _G.HubKill_Settings.FPS_Counter then
-        FpsLabel.Visible = true
-        local fps = math.floor(1 / dt)
-        FpsLabel.Text = "FPS: " .. tostring(fps)
+        FpsLabel.Visible = true; FpsLabel.Text = "FPS: " .. tostring(math.floor(1 / dt))
     else
         FpsLabel.Visible = false
     end
 end)
 
--- FPS BOOST (УБИРАНИЕ ЛАГОВ)
 RunService.Heartbeat:Connect(function()
     if _G.HubKill_Settings.FPS_Boost then
-        Lighting.GlobalShadows = false
-        Lighting.Brightness = 1
+        Lighting.GlobalShadows = false; Lighting.Brightness = 1
         for _, obj in pairs(Workspace:GetDescendants()) do
-            if obj:IsA("BasePart") then
-                obj.Material = Enum.Material.Plastic
-                obj.Reflectance = 0
-            elseif obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-                obj.Enabled = false
-            end
+            if obj:IsA("BasePart") then obj.Material = Enum.Material.Plastic; obj.Reflectance = 0
+            elseif obj:IsA("ParticleEmitter") or obj:IsA("Trail") then obj.Enabled = false end
         end
     end
 end)
 
--- ЯЗЫК
 local LangBtn = Instance.new("TextButton", SettingsPage)
 LangBtn.Size = UDim2.new(1, 0, 0, 32); LangBtn.Text = "🌐 " .. Translations[CurrentLang].Lang; LangBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55); LangBtn.TextColor3 = Color3.fromRGB(255, 255, 255); LangBtn.Font = Enum.Font.GothamBold; LangBtn.TextSize = 10
 Instance.new("UICorner", LangBtn).CornerRadius = UDim.new(0, 6)
 
 local Popup = Instance.new("ScrollingFrame", ContentArea)
-Popup.Size = UDim2.new(0, 140, 0, 120); Popup.Position = UDim2.new(0.5, -70, 0.5, -60); Popup.BackgroundColor3 = Color3.fromRGB(30, 30, 40); Popup.ZIndex = 15; Popup.Visible = false
+Popup.Size = UDim2.new(0, 140, 0, 140); Popup.Position = UDim2.new(0.5, -70, 0.5, -70); Popup.BackgroundColor3 = Color3.fromRGB(30, 30, 40); Popup.ZIndex = 15; Popup.Visible = false
 Instance.new("UIListLayout", Popup)
 
 LangBtn.MouseButton1Click:Connect(function()
@@ -483,12 +402,10 @@ LangBtn.MouseButton1Click:Connect(function()
     for _, c in ipairs(countries) do
         local b = Instance.new("TextButton", Popup)
         b.Size = UDim2.new(1,0,0,22); b.Text = c.Name; b.TextColor3 = Color3.fromRGB(255,255,255); b.Font = Enum.Font.Gotham; b.TextSize = 10; b.ZIndex = 16
-        
         b.MouseButton1Click:Connect(function()
             CurrentLang = c.Code
             LangBtn.Text = "🌐 " .. Translations[CurrentLang].Lang
             Popup.Visible = false
-            
             for _, tabData in pairs(TabButtons) do
                 tabData.Button.Text = tabData.Icon .. " " .. (Translations[CurrentLang][tabData.Key] or tabData.Key)
             end
@@ -498,7 +415,7 @@ LangBtn.MouseButton1Click:Connect(function()
 end)
 
 ---------------------------------------------------------
--- ИГРОВАЯ ЛОГИКА
+-- ИГРОВАЯ ЛОГИКА (AIM, ЖПР, ESP, ШЕРИФ)
 ---------------------------------------------------------
 UserInputService.JumpRequest:Connect(function()
     if LocalPlayer.Character then
@@ -577,4 +494,4 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
-print("HubKill v12.0 LOADED SUCCESSFULLY!")
+print("HubKill v13.0 FULL ULTIMATE LOADED SUCCESSFULLY!")
