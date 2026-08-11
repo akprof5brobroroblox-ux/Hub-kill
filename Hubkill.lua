@@ -381,4 +381,4 @@ RunService.RenderStepped:Connect(function()
                     gun:Activate()
                     local tag = Instance.new("Folder", gun)
                     tag.Name = "CooldownTag"
- 
+ ?
