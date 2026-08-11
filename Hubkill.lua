@@ -1,5 +1,5 @@
 -- ========================================================
--- HUBKILL MEGA PRO v5.1 - FIXED SYNTAX & LAUNCHER
+-- HUBKILL MEGA PRO v5.2 - FULL WORKING CODE
 -- ========================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -37,7 +37,7 @@ _G.HubKill_Settings = {
     SilentAim = false
 }
 
--- [[ СЛОВАРЬ ЯЗЫКОВ (10 СТРАН) ]]
+-- [[ СЛОВАРЬ ЯЗЫКОВ ]]
 local Translations = {
     RU = {Title="Персонаж", ESP="ESP", Settings="Настройки", Sheriff="Шериф", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Язык / Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim"},
     EN = {Title="Character", ESP="ESP", Settings="Settings", Sheriff="Sheriff", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim"},
@@ -51,9 +51,7 @@ local Translations = {
     PL = {Title="Postać", ESP="ESP", Settings="Ustawienia", Sheriff="Szeryf", Aim="AimLock", Jump="InfJump", Murd="Morderca ESP", Sher="Szeryf ESP", Inn="Niewinny ESP", Lang="Język", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim"}
 }
 
----------------------------------------------------------
--- 1. ИКОНКА СВОРАЧИВАНИЯ (Квадрат)
----------------------------------------------------------
+-- 1. ИКОНКА СВОРАЧИВАНИЯ
 local ToggleBtn = Instance.new("TextButton")
 ToggleBtn.Name = "OpenIcon"
 ToggleBtn.Parent = ScreenGui
@@ -72,9 +70,7 @@ local ToggleStroke = Instance.new("UIStroke", ToggleBtn)
 ToggleStroke.Color = CurrentAccent
 ToggleStroke.Thickness = 2
 
----------------------------------------------------------
--- 2. ГЛАВНОЕ МЕНЮ (ОГРОМНОЕ 500x320)
----------------------------------------------------------
+-- 2. ГЛАВНОЕ МЕНЮ
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
@@ -108,7 +104,6 @@ Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.BackgroundTransparency = 1
 Title.Parent = Header
 
--- Кнопки шапки
 local GreenDot = Instance.new("Frame")
 GreenDot.Size = UDim2.new(0, 12, 0, 12); GreenDot.Position = UDim2.new(1, -65, 0.5, -6); GreenDot.BackgroundColor3 = Color3.fromRGB(50, 205, 50); GreenDot.Parent = Header
 Instance.new("UICorner", GreenDot).CornerRadius = UDim.new(1, 0)
@@ -121,9 +116,7 @@ local RedExitBtn = Instance.new("TextButton")
 RedExitBtn.Size = UDim2.new(0, 14, 0, 14); RedExitBtn.Position = UDim2.new(1, -25, 0.5, -7); RedExitBtn.BackgroundColor3 = Color3.fromRGB(230, 50, 50); RedExitBtn.Text = "✕"; RedExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255); RedExitBtn.TextSize = 9; RedExitBtn.Font = Enum.Font.GothamBold; RedExitBtn.Parent = Header
 Instance.new("UICorner", RedExitBtn).CornerRadius = UDim.new(1, 0)
 
----------------------------------------------------------
 -- 3. ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА
----------------------------------------------------------
 local ConfirmFrame = Instance.new("Frame")
 ConfirmFrame.Size = UDim2.new(0, 220, 0, 110); ConfirmFrame.Position = UDim2.new(0.5, -110, 0.5, -55); ConfirmFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35); ConfirmFrame.ZIndex = 20; ConfirmFrame.Visible = false; ConfirmFrame.Parent = ScreenGui
 Instance.new("UICorner", ConfirmFrame).CornerRadius = UDim.new(0, 10)
@@ -157,9 +150,7 @@ ToggleBtn.MouseButton1Click:Connect(function()
     else MinimizeMenu() end
 end)
 
----------------------------------------------------------
 -- 4. БОКОВАЯ ПАНЕЛЬ И СТРАНИЦЫ
----------------------------------------------------------
 local SideBar = Instance.new("Frame")
 SideBar.Size = UDim2.new(0, 115, 1, -35); SideBar.Position = UDim2.new(0, 0, 0, 35); SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28); SideBar.BorderSizePixel = 0; SideBar.Parent = MainFrame
 Instance.new("UIListLayout", SideBar).Padding = UDim.new(0, 5)
@@ -200,9 +191,7 @@ local SettingsPage = CreateTab("Settings", "⚙", "Settings")
 Pages["Character"].Visible = true
 TabButtons["Character"].Button.BackgroundColor3 = CurrentAccent
 
----------------------------------------------------------
--- КНОПКИ УПРАВЛЕНИЯ С ОПИСАНИЯМИ
----------------------------------------------------------
+-- КНОПКИ УПРАВЛЕНИЯ
 local TogglesList = {}
 
 local function AddToggle(page, dictKey, settingKey, desc)
@@ -250,9 +239,7 @@ AddToggle(EspPage, "Murd", "ESP_Murd")
 AddToggle(EspPage, "Sher", "ESP_Sher")
 AddToggle(EspPage, "Inn", "ESP_Inn")
 
----------------------------------------------------------
--- ⚙ НАСТРОЙКИ: ВЫБОР ЯЗЫКА
----------------------------------------------------------
+-- НАСТРОЙКИ ЯЗЫКА
 local LangBtn = Instance.new("TextButton")
 LangBtn.Size = UDim2.new(1, -10, 0, 30); LangBtn.Text = "🌐 " .. Translations[CurrentLang].Lang; LangBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55); LangBtn.TextColor3 = Color3.fromRGB(255, 255, 255); LangBtn.Font = Enum.Font.GothamBold; LangBtn.Parent = SettingsPage
 Instance.new("UICorner", LangBtn).CornerRadius = UDim.new(0, 6)
@@ -290,11 +277,7 @@ LangBtn.MouseButton1Click:Connect(function()
     end
 end)
 
----------------------------------------------------------
--- ЛОГИКА MM2 И ИГРЫ
----------------------------------------------------------
-
--- 1. AimLock
+-- ЛОГИКА MM2
 RunService.RenderStepped:Connect(function()
     if _G.HubKill_Settings.AimLock and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
         local target = nil
@@ -309,7 +292,6 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
--- 2. InfJump
 UserInputService.JumpRequest:Connect(function()
     if _G.HubKill_Settings.InfJump and LocalPlayer.Character then
         local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
@@ -317,7 +299,6 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
--- 3. ESP (BillboardGui)
 RunService.Heartbeat:Connect(function()
     for _, p in pairs(Players:GetPlayers()) do
         if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
@@ -353,7 +334,6 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- 4. Вкладка Шерифа (AimShot, KnifeCheck, SilentAim)
 RunService.RenderStepped:Connect(function()
     if _G.HubKill_Settings.AimShot then
         local murderer = nil
@@ -381,4 +361,13 @@ RunService.RenderStepped:Connect(function()
                     gun:Activate()
                     local tag = Instance.new("Folder", gun)
                     tag.Name = "CooldownTag"
+                    task.delay(0.4, function() tag:Destroy() end)
+                end
+            end
+        end
+    end
+end)
+
+print("HubKill LOADED SUCCESSFULLY!")
+
 
