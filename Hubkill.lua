@@ -1,5 +1,5 @@
 -- ========================================================
--- HUBKILL MEGA PRO - ALL FEATURES + MM2 SHERIFF TAB
+-- HUBKILL MEGA PRO v5.0 - FIXED LOGIC & UNIVERSAL ESP
 -- ========================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -386,7 +386,7 @@ LangBtn.MouseButton1Click:Connect(function()
 end)
 
 ---------------------------------------------------------
--- ЛОГИКА MM2 И ИГРЫ
+-- ЛОГИКА MM2 И ИГРЫ (ОБНОВЛЕННАЯ & РАБОЧАЯ)
 ---------------------------------------------------------
 
 -- 1. AimLock
@@ -412,11 +412,13 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
--- 3. ESP
+-- 3. ESP (УНИВЕРСАЛЬНЫЙ BILLBOARD GUI)
 RunService.Heartbeat:Connect(function()
     for _, p in pairs(Players:GetPlayers()) do
-        if p ~= LocalPlayer and p.Character then
-            local hl = p.Character:FindFirstChild("HubKill_ESP")
+        if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+            local root = p.Character.HumanoidRootPart
+            local gui = root:FindFirstChild("HubKill_ESP_Gui")
+            
             local isMurd = p.Character:FindFirstChild("Knife") or p.Backpack:FindFirstChild("Knife")
             local isSher = p.Character:FindFirstChild("Gun") or p.Backpack:FindFirstChild("Gun")
             
@@ -428,13 +430,19 @@ RunService.Heartbeat:Connect(function()
             elseif not isMurd and not isSher and _G.HubKill_Settings.ESP_Inn then show = true col = Color3.fromRGB(0, 255, 100) end
 
             if show then
-                if not hl then
-                    hl = Instance.new("Highlight", p.Character)
-                    hl.Name = "HubKill_ESP"
+                if not gui then
+                    gui = Instance.new("BillboardGui", root)
+                    gui.Name = "HubKill_ESP_Gui"
+                    gui.Size = UDim2.new(0, 30, 0, 30)
+                    gui.AlwaysOnTop = true
+                    local frame = Instance.new("Frame", gui)
+                    frame.Size = UDim2.new(1,0,1,0)
+                    frame.BackgroundColor3 = col
+                    Instance.new("UICorner", frame).CornerRadius = UDim.new(1,0)
                 end
-                hl.FillColor = col
+                gui.Frame.BackgroundColor3 = col
             else
-                if hl then hl:Destroy() end
+                if gui then gui:Destroy() end
             end
         end
     end
@@ -459,18 +467,5 @@ RunService.RenderStepped:Connect(function()
 
             local targetPos = murderer.Character.HumanoidRootPart.Position
 
-            -- Silent Aim
-            if _G.HubKill_Settings.SilentAim then
-                Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPos)
-            end
-
-            -- Авто-выстрел с пистолета
-            local gun = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Gun")
-            if gun then
-                gun:Activate()
-            end
-        end
-    end
-end)
-
-print("HubKill MEGA PRO LOADED!")
+            -- Silent Aim (Прицел ведет сквозь стены)
+        
