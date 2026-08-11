@@ -7,13 +7,13 @@ local Workspace = game:GetService("Workspace")
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 
--- Удаление старого UI
-if CoreGui:FindFirstChild("MM2_Mobile_PulseHub") then
-    CoreGui.MM2_Mobile_PulseHub:Destroy()
+-- Удаление предыдущей версии UI
+if CoreGui:FindFirstChild("MobileHubUI") then
+    CoreGui.MobileHubUI:Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "MM2_Mobile_PulseHub"
+ScreenGui.Name = "MobileHubUI"
 ScreenGui.ResetOnSpawn = false
 
 if gethui then
@@ -25,17 +25,19 @@ else
     ScreenGui.Parent = CoreGui
 end
 
--- 1. Плавающий плавно появляющийся квадрат (Иконка)
+---------------------------------------------------------
+-- 1. ИКОНКА (Неон с эффектом воды + Надпись HubKill)
+---------------------------------------------------------
 local ToggleBtn = Instance.new("TextButton")
 ToggleBtn.Name = "OpenIcon"
 ToggleBtn.Parent = ScreenGui
-ToggleBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(10, 25, 45)
 ToggleBtn.Position = UDim2.new(0.05, 0, 0.2, 0)
 ToggleBtn.Size = UDim2.new(0, 0, 0, 0)
-ToggleBtn.Text = "HUB"
-ToggleBtn.TextColor3 = Color3.fromRGB(0, 150, 255)
-ToggleBtn.TextSize = 13
-ToggleBtn.Font = Enum.Font.SourceSansBold
+ToggleBtn.Text = "HubKill"
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleBtn.TextSize = 12
+ToggleBtn.Font = Enum.Font.GothamBold
 ToggleBtn.ClipsDescendants = true
 ToggleBtn.Active = true
 ToggleBtn.Draggable = true
@@ -44,48 +46,68 @@ local ToggleCorner = Instance.new("UICorner", ToggleBtn)
 ToggleCorner.CornerRadius = UDim.new(0, 10)
 
 local ToggleStroke = Instance.new("UIStroke", ToggleBtn)
-ToggleStroke.Color = Color3.fromRGB(0, 150, 255)
+ToggleStroke.Color = Color3.fromRGB(0, 210, 255)
 ToggleStroke.Thickness = 2
 
+-- Градиент воды для кнопки
+local WaterGradient = Instance.new("UIGradient", ToggleBtn)
+WaterGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 120, 255)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 230, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 80, 180))
+})
+WaterGradient.Rotation = 45
+
+-- Анимация течения воды на кнопке
+task.spawn(function()
+    local rot = 0
+    while task.wait(0.03) do
+        rot = (rot + 2) % 360
+        WaterGradient.Rotation = rot
+    end
+end)
+
+-- Спавн иконки
 TweenService:Create(ToggleBtn, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-    Size = UDim2.new(0, 48, 0, 48)
+    Size = UDim2.new(0, 52, 0, 52)
 }):Play()
 
--- 2. Главный фрейм меню
+---------------------------------------------------------
+-- 2. ГЛАВНОЕ МЕНЮ (Заголовок "x")
+---------------------------------------------------------
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 0, 0, 0)
 MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
 MainFrame.ClipsDescendants = true
 MainFrame.Visible = false
 MainFrame.Parent = ScreenGui
 
-Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
 
-local UIStroke = Instance.new("UIStroke", MainFrame)
-UIStroke.Color = Color3.fromRGB(0, 150, 255)
-UIStroke.Thickness = 1.5
-UIStroke.Enabled = false
+local MainUIStroke = Instance.new("UIStroke", MainFrame)
+MainUIStroke.Color = Color3.fromRGB(0, 170, 255)
+MainUIStroke.Thickness = 1.5
 
-local UIScale = Instance.new("UIScale", MainFrame)
-UIScale.Scale = 1
+local MainUIScale = Instance.new("UIScale", MainFrame)
+MainUIScale.Scale = 1
 
 -- Header
 local Header = Instance.new("Frame")
 Header.Size = UDim2.new(1, 0, 0, 35)
-Header.BackgroundTransparency = 1
+Header.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+Header.BorderSizePixel = 0
 Header.Parent = MainFrame
 
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, -40, 1, 0)
-Title.Position = UDim2.new(0, 10, 0, 0)
-Title.Text = "Pulse Hub <font color='#0096FF'>•</font> MM2 Mobile"
-Title.RichText = true
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.Text = "x"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 16
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 14
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.BackgroundTransparency = 1
 Title.Parent = Header
@@ -96,25 +118,35 @@ CloseBtn.Position = UDim2.new(1, -35, 0, 0)
 CloseBtn.BackgroundTransparency = 1
 CloseBtn.Text = "✕"
 CloseBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-CloseBtn.TextSize = 16
-CloseBtn.Font = Enum.Font.SourceSansBold
+CloseBtn.TextSize = 14
+CloseBtn.Font = Enum.Font.GothamBold
 CloseBtn.Parent = Header
 
--- Sidebar (Слева маленькие кнопки)
+---------------------------------------------------------
+-- 3. БОКОВАЯ ПАНЕЛЬ СЛЕВА
+---------------------------------------------------------
 local SideBar = Instance.new("Frame")
-SideBar.Size = UDim2.new(0, 110, 1, -40)
-SideBar.Position = UDim2.new(0, 5, 0, 35)
-SideBar.BackgroundTransparency = 1
+SideBar.Size = UDim2.new(0, 105, 1, -35)
+SideBar.Position = UDim2.new(0, 0, 0, 35)
+SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+SideBar.BorderSizePixel = 0
 SideBar.Parent = MainFrame
 
 local SideBarList = Instance.new("UIListLayout", SideBar)
 SideBarList.SortOrder = Enum.SortOrder.LayoutOrder
-SideBarList.Padding = UDim.new(0, 4)
+SideBarList.Padding = UDim.new(0, 5)
 
--- Content Area
+local SideBarPadding = Instance.new("UIPadding", SideBar)
+SideBarPadding.PaddingTop = UDim.new(0, 8)
+SideBarPadding.PaddingLeft = UDim.new(0, 6)
+SideBarPadding.PaddingRight = UDim.new(0, 6)
+
+---------------------------------------------------------
+-- 4. РАБОЧАЯ ОБЛАСТЬ СПРАВА
+---------------------------------------------------------
 local ContentArea = Instance.new("Frame")
-ContentArea.Size = UDim2.new(1, -125, 1, -40)
-ContentArea.Position = UDim2.new(0, 120, 0, 35)
+ContentArea.Size = UDim2.new(1, -115, 1, -43)
+ContentArea.Position = UDim2.new(0, 110, 0, 38)
 ContentArea.BackgroundTransparency = 1
 ContentArea.Parent = MainFrame
 
@@ -124,254 +156,355 @@ local TabButtons = {}
 local function CreatePage(pageName)
     local Page = Instance.new("ScrollingFrame")
     Page.Name = pageName
-    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.Size = UDim2.new(1, -5, 1, 0)
     Page.BackgroundTransparency = 1
     Page.ScrollBarThickness = 2
+    Page.ScrollBarImageColor3 = Color3.fromRGB(0, 170, 255)
     Page.Visible = false
     Page.Parent = ContentArea
 
     local UIList = Instance.new("UIListLayout", Page)
     UIList.SortOrder = Enum.SortOrder.LayoutOrder
-    UIList.Padding = UDim.new(0, 5)
+    UIList.Padding = UDim.new(0, 6)
+
+    local UIPadding = Instance.new("UIPadding", Page)
+    UIPadding.PaddingTop = UDim.new(0, 2)
+    UIPadding.PaddingRight = UDim.new(0, 4)
 
     Pages[pageName] = Page
     return Page
 end
 
-local MainPage = CreatePage("Main")
-local ESPPage = CreatePage("ESP")
-MainPage.Visible = true
+local function CreateTab(text, iconText, targetPageName)
+    local Page = CreatePage(targetPageName)
 
-local function ShowPage(targetPageName)
-    for name, page in pairs(Pages) do
-        page.Visible = (name == targetPageName)
-    end
-end
-
-local function CreateTabButton(text, targetPage)
     local Btn = Instance.new("TextButton")
     Btn.Size = UDim2.new(1, 0, 0, 32)
-    Btn.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
-    Btn.BackgroundTransparency = 1
-    Btn.Text = text
-    Btn.TextColor3 = Color3.fromRGB(180, 180, 180)
-    Btn.Font = Enum.Font.SourceSans
-    Btn.TextSize = 14
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
+    Btn.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+    Btn.Text = (iconText or "") .. " " .. text
+    Btn.TextColor3 = Color3.fromRGB(160, 160, 175)
+    Btn.Font = Enum.Font.GothamMedium
+    Btn.TextSize = 11
+    Btn.AutoButtonColor = false
     Btn.Parent = SideBar
 
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
-    local UIPadding = Instance.new("UIPadding", Btn)
-    UIPadding.PaddingLeft = UDim.new(0, 10)
-
-    TabButtons[targetPage] = Btn
+    TabButtons[targetPageName] = Btn
 
     Btn.MouseButton1Click:Connect(function()
         for pageName, button in pairs(TabButtons) do
-            if pageName == targetPage then
+            if pageName == targetPageName then
                 TweenService:Create(button, TweenInfo.new(0.2), {
-                    BackgroundTransparency = 0,
+                    BackgroundColor3 = Color3.fromRGB(0, 170, 255),
                     TextColor3 = Color3.fromRGB(255, 255, 255)
                 }):Play()
-                button.Font = Enum.Font.SourceSansBold
             else
                 TweenService:Create(button, TweenInfo.new(0.2), {
-                    BackgroundTransparency = 1,
-                    TextColor3 = Color3.fromRGB(180, 180, 180)
+                    BackgroundColor3 = Color3.fromRGB(28, 28, 38),
+                    TextColor3 = Color3.fromRGB(160, 160, 175)
                 }):Play()
-                button.Font = Enum.Font.SourceSans
             end
         end
-        ShowPage(targetPage)
+
+        for name, pageFrame in pairs(Pages) do
+            if name == targetPageName then
+                pageFrame.Visible = true
+                pageFrame.Position = UDim2.new(0.05, 0, 0, 0)
+                TweenService:Create(pageFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    Position = UDim2.new(0, 0, 0, 0)
+                }):Play()
+            else
+                pageFrame.Visible = false
+            end
+        end
     end)
-    return Btn
+
+    return Page
 end
 
-local MainTab = CreateTabButton("Главная", "Main")
-local ESPTab = CreateTabButton("ESP", "ESP")
-
-MainTab.BackgroundTransparency = 0
-MainTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-MainTab.Font = Enum.Font.SourceSansBold
-
--- ESP Пресеты
-local ColorPresets = {
-    Color3.fromRGB(255, 0, 0),
-    Color3.fromRGB(0, 150, 255),
-    Color3.fromRGB(255, 215, 0),
-    Color3.fromRGB(0, 255, 100),
-    Color3.fromRGB(180, 0, 255),
-    Color3.fromRGB(255, 255, 255)
-}
-
-local ESP_Data = {
-    Murderer = { Enabled = false, Color = Color3.fromRGB(255, 0, 0), ColorIndex = 1 },
-    Sheriff  = { Enabled = false, Color = Color3.fromRGB(0, 150, 255), ColorIndex = 2 },
-    Hero     = { Enabled = false, Color = Color3.fromRGB(255, 215, 0), ColorIndex = 3 },
-    Innocent = { Enabled = false, Color = Color3.fromRGB(0, 255, 100), ColorIndex = 4 },
-    GunDrop  = { Enabled = false, Color = Color3.fromRGB(255, 255, 0), ColorIndex = 3 }
-}
-
-local function CreateFunctionButton(parent, text, callback)
-    local Btn = Instance.new("TextButton")
-    Btn.Size = UDim2.new(1, -5, 0, 30)
-    Btn.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
-    Btn.Text = text
-    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Btn.Font = Enum.Font.SourceSans
-    Btn.TextSize = 13
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
-    Btn.Parent = parent
-
-    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
-    local UIPadding = Instance.new("UIPadding", Btn)
-    UIPadding.PaddingLeft = UDim.new(0, 8)
-
-    Btn.MouseButton1Click:Connect(callback)
-    return Btn
-end
-
-local function CreateFunctionToggle(parent, text, defaultState, callback)
+---------------------------------------------------------
+-- 5. КОМПОНЕНТЫ ФУНКЦИЙ И ВСПОМОГАТЕЛЬНЫЕ ОКНА
+---------------------------------------------------------
+local function AddToggle(page, text, defaultState, callback)
     local Container = Instance.new("Frame")
-    Container.Size = UDim2.new(1, -5, 0, 30)
-    Container.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
-    Container.Parent = parent
+    Container.Size = UDim2.new(1, 0, 0, 36)
+    Container.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
+    Container.Parent = page
+
     Instance.new("UICorner", Container).CornerRadius = UDim.new(0, 6)
 
     local TitleLabel = Instance.new("TextLabel")
-    TitleLabel.Size = UDim2.new(1, -50, 1, 0)
-    TitleLabel.Position = UDim2.new(0, 8, 0, 0)
+    TitleLabel.Size = UDim2.new(1, -55, 1, 0)
+    TitleLabel.Position = UDim2.new(0, 10, 0, 0)
     TitleLabel.Text = text
-    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TitleLabel.Font = Enum.Font.SourceSans
-    TitleLabel.TextSize = 13
+    TitleLabel.TextColor3 = Color3.fromRGB(230, 230, 230)
+    TitleLabel.Font = Enum.Font.Gotham
+    TitleLabel.TextSize = 11
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
     TitleLabel.BackgroundTransparency = 1
     TitleLabel.Parent = Container
 
-    local ToggleBtn = Instance.new("TextButton")
-    ToggleBtn.Size = UDim2.new(0, 36, 0, 18)
-    ToggleBtn.Position = UDim2.new(1, -42, 0.5, -9)
-    ToggleBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    ToggleBtn.Text = ""
-    ToggleBtn.Parent = Container
-    Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0)
+    local Switch = Instance.new("TextButton")
+    Switch.Size = UDim2.new(0, 38, 0, 20)
+    Switch.Position = UDim2.new(1, -44, 0.5, -10)
+    Switch.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
+    Switch.Text = ""
+    Switch.AutoButtonColor = false
+    Switch.Parent = Container
 
-    local Indicator = Instance.new("Frame")
-    Indicator.Size = UDim2.new(0, 14, 0, 14)
-    Indicator.Position = UDim2.new(0, 2, 0.5, -7)
-    Indicator.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-    Indicator.Parent = ToggleBtn
-    Instance.new("UICorner", Indicator).CornerRadius = UDim.new(1, 0)
+    Instance.new("UICorner", Switch).CornerRadius = UDim.new(1, 0)
 
-    local state = defaultState
+    local Circle = Instance.new("Frame")
+    Circle.Size = UDim2.new(0, 16, 0, 16)
+    Circle.Position = UDim2.new(0, 2, 0.5, -8)
+    Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Circle.Parent = Switch
+
+    Instance.new("UICorner", Circle).CornerRadius = UDim.new(1, 0)
+
+    local toggled = defaultState or false
     local function UpdateVisuals()
-        if state then
-            TweenService:Create(ToggleBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0, 150, 255)}):Play()
-            TweenService:Create(Indicator, TweenInfo.new(0.2), {Position = UDim2.new(1, -16, 0.5, -7)}):Play()
+        if toggled then
+            TweenService:Create(Switch, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0, 170, 255)}):Play()
+            TweenService:Create(Circle, TweenInfo.new(0.2), {Position = UDim2.new(1, -18, 0.5, -8)}):Play()
         else
-            TweenService:Create(ToggleBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
-            TweenService:Create(Indicator, TweenInfo.new(0.2), {Position = UDim2.new(0, 2, 0.5, -7)}):Play()
+            TweenService:Create(Switch, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(45, 45, 60)}):Play()
+            TweenService:Create(Circle, TweenInfo.new(0.2), {Position = UDim2.new(0, 2, 0.5, -8)}):Play()
         end
     end
     UpdateVisuals()
 
-    ToggleBtn.MouseButton1Click:Connect(function()
-        state = not state
+    Switch.MouseButton1Click:Connect(function()
+        toggled = not toggled
         UpdateVisuals()
-        callback(state)
+        pcall(callback, toggled)
     end)
+
     return Container
 end
 
-local function CreateESPFunctionWithColor(parent, text, espKey)
-    local Container = CreateFunctionToggle(parent, text, ESP_Data[espKey].Enabled, function(state)
-        ESP_Data[espKey].Enabled = state
-    end)
+---------------------------------------------------------
+-- СОЗДАНИЕ ВЫБОРКИ ВКЛАДОК
+---------------------------------------------------------
+local CharPage     = CreateTab("Персонаж", "👤", "Character")
+local EspPage      = CreateTab("ESP", "👁", "ESP")
+local SettingsPage = CreateTab("Настройки", "⚙", "Settings")
 
-    local ColorSquare = Instance.new("TextButton")
-    ColorSquare.Size = UDim2.new(0, 18, 0, 18)
-    ColorSquare.Position = UDim2.new(1, -68, 0.5, -9)
-    ColorSquare.BackgroundColor3 = ESP_Data[espKey].Color
-    ColorSquare.Text = ""
-    ColorSquare.Parent = Container
+-- Первая активная вкладка по умолчанию
+TabButtons["Character"].BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+TabButtons["Character"].TextColor3 = Color3.fromRGB(255, 255, 255)
+Pages["Character"].Visible = true
 
-    Instance.new("UICorner", ColorSquare).CornerRadius = UDim.new(0, 4)
-    local SquareStroke = Instance.new("UIStroke", ColorSquare)
-    SquareStroke.Color = Color3.fromRGB(255, 255, 255)
-    SquareStroke.Thickness = 1
-
-    ColorSquare.MouseButton1Click:Connect(function()
-        local data = ESP_Data[espKey]
-        data.ColorIndex = (data.ColorIndex % #ColorPresets) + 1
-        data.Color = ColorPresets[data.ColorIndex]
-        ColorSquare.BackgroundColor3 = data.Color
-    end)
-end
-
--- Наполнение Главной
+---------------------------------------------------------
+-- ВКЛАДКА 1: ПЕРСОНАЖ
+---------------------------------------------------------
 local AimLock_Enabled = false
-local AimSmoothness = 0.15
 
-CreateFunctionToggle(MainPage, "Плавный AimLock (Убийца)", false, function(state)
+AddToggle(CharPage, "AimLock (Убийца)", false, function(state)
     AimLock_Enabled = state
 end)
 
-CreateFunctionButton(MainPage, "Сменить тему UI", function()
-    if MainFrame.BackgroundColor3 == Color3.fromRGB(15, 15, 15) then
-        MainFrame.BackgroundColor3 = Color3.fromRGB(30, 10, 10)
-    elseif MainFrame.BackgroundColor3 == Color3.fromRGB(30, 10, 10) then
-        MainFrame.BackgroundColor3 = Color3.fromRGB(10, 15, 30)
-    else
-        MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+AddToggle(CharPage, "Бесконечный прыжок", false, function(state)
+    _G.InfJump = state
+end)
+
+---------------------------------------------------------
+-- ВКЛАДКА 2: ESP
+---------------------------------------------------------
+local ESP_Settings = {
+    Murderer = false,
+    Sheriff = false,
+    Innocent = false
+}
+
+AddToggle(EspPage, "Murderer ESP", false, function(state)
+    ESP_Settings.Murderer = state
+end)
+
+AddToggle(EspPage, "Sheriff ESP", false, function(state)
+    ESP_Settings.Sheriff = state
+end)
+
+AddToggle(EspPage, "Innocent ESP", false, function(state)
+    ESP_Settings.Innocent = state
+end)
+
+---------------------------------------------------------
+-- ВКЛАДКА 3: НАСТРОЙКИ С ОКОШКАМИ ВЫБОРА (ЦВЕТ / СТИЛЬ)
+---------------------------------------------------------
+local SettingsThemeContainer = Instance.new("Frame")
+SettingsThemeContainer.Size = UDim2.new(1, 0, 0, 40)
+SettingsThemeContainer.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
+SettingsThemeContainer.Parent = SettingsPage
+Instance.new("UICorner", SettingsThemeContainer).CornerRadius = UDim.new(0, 6)
+
+local ThemeLabel = Instance.new("TextLabel")
+ThemeLabel.Size = UDim2.new(1, -110, 1, 0)
+ThemeLabel.Position = UDim2.new(0, 10, 0, 0)
+ThemeLabel.Text = "Изменить тему UI"
+ThemeLabel.TextColor3 = Color3.fromRGB(230, 230, 230)
+ThemeLabel.Font = Enum.Font.Gotham
+ThemeLabel.TextSize = 11
+ThemeLabel.TextXAlignment = Enum.TextXAlignment.Left
+ThemeLabel.BackgroundTransparency = 1
+ThemeLabel.Parent = SettingsThemeContainer
+
+-- Две маленькие кнопки
+local ColorPickerBtn = Instance.new("TextButton")
+ColorPickerBtn.Size = UDim2.new(0, 45, 0, 22)
+ColorPickerBtn.Position = UDim2.new(1, -100, 0.5, -11)
+ColorPickerBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+ColorPickerBtn.Text = "Цвет"
+ColorPickerBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ColorPickerBtn.Font = Enum.Font.GothamBold
+ColorPickerBtn.TextSize = 10
+ColorPickerBtn.Parent = SettingsThemeContainer
+Instance.new("UICorner", ColorPickerBtn).CornerRadius = UDim.new(0, 5)
+
+local StylePickerBtn = Instance.new("TextButton")
+StylePickerBtn.Size = UDim2.new(0, 48, 0, 22)
+StylePickerBtn.Position = UDim2.new(1, -50, 0.5, -11)
+StylePickerBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55)
+StylePickerBtn.Text = "Стиль"
+StylePickerBtn.TextColor3 = Color3.fromRGB(220, 220, 220)
+StylePickerBtn.Font = Enum.Font.GothamBold
+StylePickerBtn.TextSize = 10
+StylePickerBtn.Parent = SettingsThemeContainer
+Instance.new("UICorner", StylePickerBtn).CornerRadius = UDim.new(0, 5)
+
+-- Выплывающее Окошко Списка (Scroll Pop-up)
+local ScrollPopup = Instance.new("Frame")
+ScrollPopup.Size = UDim2.new(0, 120, 0, 110)
+ScrollPopup.Position = UDim2.new(0.5, -60, 0.5, -55)
+ScrollPopup.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+ScrollPopup.ClipsDescendants = true
+ScrollPopup.Visible = false
+ScrollPopup.ZIndex = 10
+ScrollPopup.Parent = MainFrame
+
+Instance.new("UICorner", ScrollPopup).CornerRadius = UDim.new(0, 8)
+local PopStroke = Instance.new("UIStroke", ScrollPopup)
+PopStroke.Color = Color3.fromRGB(0, 170, 255)
+PopStroke.Thickness = 1.5
+
+local PopupScroll = Instance.new("ScrollingFrame")
+PopupScroll.Size = UDim2.new(1, 0, 1, 0)
+PopupScroll.BackgroundTransparency = 1
+PopupScroll.ScrollBarThickness = 3
+PopupScroll.ZIndex = 11
+PopupScroll.Parent = ScrollPopup
+
+local PopList = Instance.new("UIListLayout", PopupScroll)
+PopList.SortOrder = Enum.SortOrder.LayoutOrder
+PopList.Padding = UDim.new(0, 4)
+
+local PopPad = Instance.new("UIPadding", PopupScroll)
+PopPad.PaddingTop = UDim.new(0, 5)
+PopPad.PaddingLeft = UDim.new(0, 5)
+PopPad.PaddingRight = UDim.new(0, 5)
+
+local function ClearPopup()
+    for _, child in pairs(PopupScroll:GetChildren()) do
+        if child:IsA("TextButton") then child:Destroy() end
+    end
+end
+
+-- Логика рулетки цвета
+ColorPickerBtn.MouseButton1Click:Connect(function()
+    ClearPopup()
+    ScrollPopup.Visible = not ScrollPopup.Visible
+    if not ScrollPopup.Visible then return end
+
+    local colors = {
+        {Name = "Синий", Color = Color3.fromRGB(0, 170, 255)},
+        {Name = "Красный", Color = Color3.fromRGB(255, 50, 50)},
+        {Name = "Зеленый", Color = Color3.fromRGB(0, 230, 120)},
+        {Name = "Фиолетовый", Color = Color3.fromRGB(170, 0, 255)},
+        {Name = "Золотой", Color = Color3.fromRGB(255, 200, 0)},
+        {Name = "Белый", Color = Color3.fromRGB(255, 255, 255)}
+    }
+
+    for _, item in ipairs(colors) do
+        local b = Instance.new("TextButton")
+        b.Size = UDim2.new(1, 0, 0, 24)
+        b.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+        b.Text = item.Name
+        b.TextColor3 = item.Color
+        b.Font = Enum.Font.GothamMedium
+        b.TextSize = 10
+        b.ZIndex = 12
+        b.Parent = PopupScroll
+        Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+
+        b.MouseButton1Click:Connect(function()
+            MainUIStroke.Color = item.Color
+            ToggleStroke.Color = item.Color
+            ColorPickerBtn.BackgroundColor3 = item.Color
+            ScrollPopup.Visible = false
+        end)
     end
 end)
 
-CreateFunctionToggle(MainPage, "Неоновая обводка", false, function(state)
-    UIStroke.Enabled = state
-end)
+-- Логика рулетки стилей
+StylePickerBtn.MouseButton1Click:Connect(function()
+    ClearPopup()
+    ScrollPopup.Visible = not ScrollPopup.Visible
+    if not ScrollPopup.Visible then return end
 
-local currentScale = 1
-CreateFunctionButton(MainPage, "Размер: 100% -> 80% -> 120%", function()
-    if currentScale == 1 then
-        currentScale = 0.8
-    elseif currentScale == 0.8 then
-        currentScale = 1.2
-    else
-        currentScale = 1
+    local styles = {
+        {Name = "Неоновый", Bg = Color3.fromRGB(16, 16, 22), Main = Color3.fromRGB(0, 170, 255)},
+        {Name = "Демонический", Bg = Color3.fromRGB(25, 10, 12), Main = Color3.fromRGB(255, 30, 30)},
+        {Name = "Темный", Bg = Color3.fromRGB(10, 10, 10), Main = Color3.fromRGB(100, 100, 100)},
+        {Name = "Морской", Bg = Color3.fromRGB(10, 22, 30), Main = Color3.fromRGB(0, 220, 255)}
+    }
+
+    for _, item in ipairs(styles) do
+        local b = Instance.new("TextButton")
+        b.Size = UDim2.new(1, 0, 0, 24)
+        b.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+        b.Text = item.Name
+        b.TextColor3 = Color3.fromRGB(240, 240, 240)
+        b.Font = Enum.Font.GothamMedium
+        b.TextSize = 10
+        b.ZIndex = 12
+        b.Parent = PopupScroll
+        Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+
+        b.MouseButton1Click:Connect(function()
+            MainFrame.BackgroundColor3 = item.Bg
+            MainUIStroke.Color = item.Main
+            ScrollPopup.Visible = false
+        end)
     end
-    TweenService:Create(UIScale, TweenInfo.new(0.25), {Scale = currentScale}):Play()
 end)
 
--- Наполнение ESP
-CreateESPFunctionWithColor(ESPPage, "Убийца (Murderer)", "Murderer")
-CreateESPFunctionWithColor(ESPPage, "Шериф (Sheriff)", "Sheriff")
-CreateESPFunctionWithColor(ESPPage, "Герой (Hero)", "Hero")
-CreateESPFunctionWithColor(ESPPage, "Мирные (Innocent)", "Innocent")
-CreateESPFunctionWithColor(ESPPage, "Пистолет (GunDrop)", "GunDrop")
-
--- Анимация Открытия/Закрытия
+---------------------------------------------------------
+-- 6. ПЛАВНОЕ ОТКРЫТИЕ И ЗАКРЫТИЕ
+---------------------------------------------------------
 local isOpen = false
 
 local function OpenMenu()
     isOpen = true
     MainFrame.Visible = true
-    
+
     TweenService:Create(ToggleBtn, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
         Size = UDim2.new(0, 0, 0, 0)
     }):Play()
 
-    TweenService:Create(MainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-        Size = UDim2.new(0, 420, 0, 250)
+    TweenService:Create(MainFrame, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 370, 0, 225)
     }):Play()
 end
 
 local function CloseMenu()
     isOpen = false
+    ScrollPopup.Visible = false
+
     local mainTween = TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
         Size = UDim2.new(0, 0, 0, 0)
     })
     mainTween:Play()
+
     mainTween.Completed:Connect(function()
         if not isOpen then
             MainFrame.Visible = false
@@ -379,14 +512,16 @@ local function CloseMenu()
     end)
 
     TweenService:Create(ToggleBtn, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Size = UDim2.new(0, 48, 0, 48)
+        Size = UDim2.new(0, 52, 0, 52)
     }):Play()
 end
 
 ToggleBtn.MouseButton1Click:Connect(OpenMenu)
 CloseBtn.MouseButton1Click:Connect(CloseMenu)
 
--- Логика ESP и AimLock
+---------------------------------------------------------
+-- ЛОГИКА ИГРЫ (ESP, AIMLOCK, INF JUMP)
+---------------------------------------------------------
 local function GetRole(player)
     if not player or not player.Character then return "Innocent" end
     local char = player.Character
@@ -395,7 +530,6 @@ local function GetRole(player)
         return "Murderer"
     end
     if char:FindFirstChild("Gun") or (backpack and backpack:FindFirstChild("Gun")) then
-        if player:FindFirstChild("IsHero") then return "Hero" end
         return "Sheriff"
     end
     return "Innocent"
@@ -419,41 +553,26 @@ local function RemoveHighlight(object)
     end
 end
 
+-- Цикл ESP
 task.spawn(function()
     while task.wait(0.3) do
         for _, player in pairs(Players:GetPlayers()) do
             if player ~= LocalPlayer and player.Character then
                 local role = GetRole(player)
                 local char = player.Character
-                local config = ESP_Data[role]
-                if config and config.Enabled then
-                    ApplyHighlight(char, config.Color)
+                if role == "Murderer" and ESP_Settings.Murderer then
+                    ApplyHighlight(char, Color3.fromRGB(255, 0, 0))
+                elseif role == "Sheriff" and ESP_Settings.Sheriff then
+                    ApplyHighlight(char, Color3.fromRGB(0, 150, 255))
+                elseif role == "Innocent" and ESP_Settings.Innocent then
+                    ApplyHighlight(char, Color3.fromRGB(0, 255, 100))
                 else
                     RemoveHighlight(char)
                 end
             end
         end
-        local gunDrop = Workspace:FindFirstChild("GunDrop")
-        if gunDrop then
-            if ESP_Data.GunDrop.Enabled then
-                ApplyHighlight(gunDrop, ESP_Data.GunDrop.Color)
-            else
-                RemoveHighlight(gunDrop)
-            end
-        end
     end
 end)
 
-RunService.RenderStepped:Connect(function()
-    if AimLock_Enabled then
-        for _, player in pairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer and GetRole(player) == "Murderer" and player.Character then
-                local head = player.Character:FindFirstChild("Head")
-                if head then
-                    local targetCFrame = CFrame.new(Camera.CFrame.Position, head.Position)
-                    Camera.CFrame = Camera.CFrame:Lerp(targetCFrame, AimSmoothness)
-                end
-            end
-        end
-    end
-end)
+-- AimLock
+RunServ
