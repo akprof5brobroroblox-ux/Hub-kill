@@ -1,5 +1,5 @@
 -- ========================================================
--- HUBKILL MEGA PRO v11.0 - ULTIMATE EDITION (ALL MODULES)
+-- HUBKILL MEGA PRO v12.0 - FAST OPEN ICON & NO BLACKSCREEN
 -- ========================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -22,84 +22,6 @@ local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "MobileHubUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = CoreGui
-
----------------------------------------------------------
--- 🎬 КИНЕМАТОГРАФИЧНОЕ ИНТРО (Кровавая надпись + Танцующий скин)
----------------------------------------------------------
-local function PlayIntroAnimation()
-    local IntroGui = Instance.new("ScreenGui")
-    IntroGui.Name = "HubKillIntro"
-    IntroGui.Parent = CoreGui
-
-    local Bg = Instance.new("Frame", IntroGui)
-    Bg.Size = UDim2.new(1, 0, 1, 0)
-    Bg.BackgroundColor3 = Color3.fromRGB(5, 5, 8)
-
-    local BloodText = Instance.new("TextLabel", IntroGui)
-    BloodText.Size = UDim2.new(1, 0, 0, 100)
-    BloodText.Position = UDim2.new(0, 0, 0.4, -50)
-    BloodText.BackgroundTransparency = 1
-    BloodText.Text = "HUBKILL MEGA PRO"
-    BloodText.TextColor3 = Color3.fromRGB(180, 0, 0)
-    BloodText.Font = Enum.Font.GothamBold
-    BloodText.TextSize = 36
-    BloodText.TextTransparency = 1
-
-    local tIn = TweenService:Create(BloodText, TweenInfo.new(0.8, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {TextTransparency = 0})
-    tIn:Play()
-
-    task.wait(1.2)
-
-    local tOut = TweenService:Create(BloodText, TweenInfo.new(0.5, Enum.EasingStyle.In, Enum.EasingDirection.In), {TextTransparency = 1, Position = UDim2.new(0, 0, 0.3, -50)})
-    tOut:Play()
-
-    task.wait(0.6)
-    BloodText:Destroy()
-
-    local Viewport = Instance.new("ViewportFrame", IntroGui)
-    Viewport.Size = UDim2.new(0, 300, 0, 400)
-    Viewport.Position = UDim2.new(0.5, -150, 0.5, -200)
-    Viewport.BackgroundTransparency = 1
-    Viewport.ImageTransparency = 1
-
-    local charModel = LocalPlayer.Character
-    if charModel then
-        charModel = charModel:Clone()
-        charModel.Parent = Viewport
-        for _, child in pairs(charModel:GetChildren()) do
-            if not child:IsA("BasePart") and not child:IsA("Model") and not child:IsA("Accessory") then
-                child:Destroy()
-            end
-        end
-        local cam = Instance.new("Camera", Viewport)
-        Viewport.CurrentCamera = cam
-        cam.CFrame = CFrame.new(Vector3.new(0, 2, -4), charModel:GetPivot().Position + Vector3.new(0, 1, 0))
-    end
-
-    local vFadeIn = TweenService:Create(Viewport, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
-    vFadeIn:Play()
-
-    local hum = charModel and charModel:FindFirstChildOfClass("Humanoid")
-    if hum then
-        local anim = Instance.new("Animation")
-        anim.AnimationId = "rbxassetid://182436842"
-        local track = hum:LoadAnimation(anim)
-        track:Play()
-    end
-
-    task.wait(2.5)
-
-    local vFadeOut = TweenService:Create(Viewport, TweenInfo.new(0.8, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {ImageTransparency = 1, Position = UDim2.new(0.5, -150, 0.2, -200)})
-    local bgFade = TweenService:Create(Bg, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1})
-    
-    vFadeOut:Play()
-    bgFade:Play()
-    
-    task.wait(0.8)
-    IntroGui:Destroy()
-end
-
-task.spawn(PlayIntroAnimation)
 
 local CurrentAccent = Color3.fromRGB(0, 170, 255)
 local CurrentThemeBg = Color3.fromRGB(16, 16, 22)
@@ -137,24 +59,62 @@ local function CreateStarEffect(btn)
     tween:Play(); tween.Completed:Connect(function() star:Destroy() end)
 end
 
--- 1. ИКОНКА СВОРАЧИВАНИЯ
+---------------------------------------------------------
+-- 1. СИНИЙ КВАДРАТИК СВОРАЧИВАНИЯ (ОТКРЫТИЕ МЕНЮ)
+---------------------------------------------------------
 local ToggleBtn = Instance.new("TextButton")
-ToggleBtn.Name = "OpenIcon"; ToggleBtn.Parent = ScreenGui; ToggleBtn.BackgroundColor3 = Color3.fromRGB(10, 25, 45); ToggleBtn.Position = UDim2.new(0.02, 0, 0.4, 0); ToggleBtn.Size = UDim2.new(0, 52, 0, 52); ToggleBtn.Text = "HubKill"; ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255); ToggleBtn.TextSize = 12; ToggleBtn.Font = Enum.Font.GothamBold; ToggleBtn.Active = true; ToggleBtn.Draggable = true
-Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(0, 10)
-local ToggleStroke = Instance.new("UIStroke", ToggleBtn); ToggleStroke.Color = CurrentAccent; ToggleStroke.Thickness = 2
+ToggleBtn.Name = "OpenIcon"
+ToggleBtn.Parent = ScreenGui
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(10, 25, 45)
+ToggleBtn.Position = UDim2.new(0.02, 0, 0.4, 0)
+ToggleBtn.Size = UDim2.new(0, 52, 0, 52)
+ToggleBtn.Text = "HubKill"
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleBtn.TextSize = 12
+ToggleBtn.Font = Enum.Font.GothamBold
+ToggleBtn.Active = true
+ToggleBtn.Draggable = true
 
--- 2. ГЛАВНОЕ МЕНЮ
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(0, 10)
+local ToggleStroke = Instance.new("UIStroke", ToggleBtn)
+ToggleStroke.Color = CurrentAccent
+ToggleStroke.Thickness = 2
+
+---------------------------------------------------------
+-- 2. ГЛАВНОЕ МЕНЮ (500x320)
+---------------------------------------------------------
 local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"; MainFrame.Parent = ScreenGui; MainFrame.Size = UDim2.new(0, 0, 0, 0); MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0); MainFrame.AnchorPoint = Vector2.new(0.5, 0.5); MainFrame.BackgroundColor3 = CurrentThemeBg; MainFrame.ClipsDescendants = true; MainFrame.Visible = false
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.Size = UDim2.new(0, 0, 0, 0)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = CurrentThemeBg
+MainFrame.ClipsDescendants = true
+MainFrame.Visible = false
+
 Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 12)
-local MainUIStroke = Instance.new("UIStroke", MainFrame); MainUIStroke.Color = CurrentAccent; MainUIStroke.Thickness = 1.5
+local MainUIStroke = Instance.new("UIStroke", MainFrame)
+MainUIStroke.Color = CurrentAccent
+MainUIStroke.Thickness = 1.5
 
 -- Header
 local Header = Instance.new("Frame")
-Header.Size = UDim2.new(1, 0, 0, 35); Header.BackgroundColor3 = Color3.fromRGB(22, 22, 30); Header.BorderSizePixel = 0; Header.Parent = MainFrame
+Header.Size = UDim2.new(1, 0, 0, 35)
+Header.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+Header.BorderSizePixel = 0
+Header.Parent = MainFrame
 
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -90, 1, 0); Title.Position = UDim2.new(0, 12, 0, 0); Title.Text = "HubKill Mega Pro v11.0"; Title.TextColor3 = Color3.fromRGB(255, 255, 255); Title.Font = Enum.Font.GothamBold; Title.TextSize = 15; Title.TextXAlignment = Enum.TextXAlignment.Left; Title.BackgroundTransparency = 1; Title.Parent = Header
+Title.Size = UDim2.new(1, -90, 1, 0)
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.Text = "HubKill Mega Pro v12.0"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 15
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.BackgroundTransparency = 1
+Title.Parent = Header
 
 local GreenDot = Instance.new("Frame"); GreenDot.Size = UDim2.new(0, 12, 0, 12); GreenDot.Position = UDim2.new(1, -65, 0.5, -6); GreenDot.BackgroundColor3 = Color3.fromRGB(50, 205, 50); GreenDot.Parent = Header
 Instance.new("UICorner", GreenDot).CornerRadius = UDim.new(1, 0)
@@ -191,11 +151,14 @@ end
 YellowExitBtn.MouseButton1Click:Connect(MinimizeMenu)
 ToggleBtn.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible 
-    if MainFrame.Visible then MainFrame:TweenSize(UDim2.new(0, 500, 0, 320), "Out", "Quart", 0.3) 
-    else MinimizeMenu() end
+    if MainFrame.Visible then 
+        MainFrame:TweenSize(UDim2.new(0, 500, 0, 320), "Out", "Quart", 0.3) 
+    else 
+        MinimizeMenu() 
+    end
 end)
 
--- 4. БОКОВАЯ ПАНЕЛЬ И СТРАНИЦЫ
+-- 3. БОКОВАЯ ПАНЕЛЬ И СТРАНИЦЫ
 local SideBar = Instance.new("Frame"); SideBar.Size = UDim2.new(0, 115, 1, -35); SideBar.Position = UDim2.new(0, 0, 0, 35); SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28); SideBar.BorderSizePixel = 0; SideBar.Parent = MainFrame
 Instance.new("UIListLayout", SideBar).Padding = UDim.new(0, 5)
 
@@ -298,10 +261,8 @@ AddToggle(EspPage, "Sher", "ESP_Sher")
 AddToggle(EspPage, "Inn", "ESP_Inn")
 
 ---------------------------------------------------------
--- 🎨 ВКЛАДКА "ВИЗУАЛЫ" (ЭФФЕКТЫ, СЛЕДЫ, ОРУЖИЕ, ЭМОЦИИ, НЕБО)
+-- 🎨 ВКЛАДКА "ВИЗУАЛЫ"
 ---------------------------------------------------------
-
--- 1. Эффекты крыльев
 local function RemoveCurrentVisual()
     if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
         local hrp = LocalPlayer.Character.HumanoidRootPart
@@ -356,7 +317,7 @@ AddVisualBtn("👻 Призрак", "GhostAura")
 AddVisualBtn("⚡ Шторм", "Lightning")
 AddVisualBtn("👑 Корона", "Crown")
 
--- 2. Эффекты под ногами
+-- Следы под ногами
 local function AddFootTrailBtn(text, trailType)
     local btn = Instance.new("TextButton", VisualPage)
     btn.Size = UDim2.new(1, 0, 0, 32); btn.BackgroundColor3 = Color3.fromRGB(35, 35, 45); btn.Text = text; btn.TextColor3 = Color3.fromRGB(255, 255, 255); btn.Font = Enum.Font.Gotham; btn.TextSize = 9
@@ -383,14 +344,14 @@ local function AddFootTrailBtn(text, trailType)
     end)
 end
 
-AddFootTrailBtn("🔥 Огонь под ногами", "Fire")
-AddFootTrailBtn("❄️ Лёд под ногами", "Ice")
-AddFootTrailBtn("🌸 Цветы под ногами", "Flowers")
-AddFootTrailBtn("⚡ Искры под ногами", "Electric")
-AddFootTrailBtn("🕳️ Тень под ногами", "Void")
+AddFootTrailBtn("🔥 Огонь", "Fire")
+AddFootTrailBtn("❄️ Лёд", "Ice")
+AddFootTrailBtn("🌸 Цветы", "Flowers")
+AddFootTrailBtn("⚡ Искры", "Electric")
+AddFootTrailBtn("🕳️ Тень", "Void")
 AddFootTrailBtn("❌ Без следов", "None")
 
--- 3. Клиентское оружие (Визуальные ножи/пистолеты)
+-- Клиентское оружие
 local function GiveClientItem(itemName, isKnife)
     local tool = Instance.new("Tool"); tool.Name = "[Visual] " .. itemName; tool.RequiresHandle = true
     local handle = Instance.new("Part", tool); handle.Name = "Handle"; handle.Size = Vector3.new(1, 2, 1)
@@ -415,7 +376,7 @@ AddItemBtn("🔪 Chroma Laser", "Chroma Laser", true)
 AddItemBtn("🔪 Candy Knife", "Candy", true)
 AddItemBtn("🔫 Corrupt Gun", "Corrupt", false)
 
--- 4. Эмоции MM2
+-- Эмоции
 local currentTrack = nil
 local function PlayEmote(animId)
     local char = LocalPlayer.Character
@@ -438,7 +399,7 @@ AddEmoteBtn("🧘 Эмоция: Zen", "333333131")
 AddEmoteBtn("🪑 Эмоция: Sit", "250622329")
 AddEmoteBtn("🕺 Эмоция: Dance", "182436842")
 
--- 5. Кастомное небо
+-- Кастомное небо
 local function SetSky(skyId)
     local oldSky = Lighting:FindFirstChildOfClass("Sky")
     if oldSky then oldSky:Destroy() end
@@ -467,7 +428,7 @@ AddSkyBtn("🔄 Сброс неба", "Reset")
 AddToggle(SettingsPage, "FPS", "FPS_Counter")
 AddToggle(SettingsPage, "Boost", "FPS_Boost")
 
--- ЛОГИКА FPS COUNTER
+-- FPS COUNTER
 local FpsLabel = Instance.new("TextLabel", ScreenGui)
 FpsLabel.Size = UDim2.new(0, 100, 0, 30); FpsLabel.Position = UDim2.new(1, -110, 0, 10); FpsLabel.BackgroundTransparency = 0.5; FpsLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 20); FpsLabel.TextColor3 = Color3.fromRGB(50, 255, 50); FpsLabel.Font = Enum.Font.GothamBold; FpsLabel.TextSize = 12; FpsLabel.Visible = false
 
@@ -481,7 +442,7 @@ RunService.RenderStepped:Connect(function(dt)
     end
 end)
 
--- ЛОГИКА УБИРАНИЯ ЛАГОВ (FPS BOOST)
+-- FPS BOOST (УБИРАНИЕ ЛАГОВ)
 RunService.Heartbeat:Connect(function()
     if _G.HubKill_Settings.FPS_Boost then
         Lighting.GlobalShadows = false
@@ -497,7 +458,7 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- ВЫБОР ЯЗЫКА (10 ЯЗЫКОВ)
+-- ЯЗЫК
 local LangBtn = Instance.new("TextButton", SettingsPage)
 LangBtn.Size = UDim2.new(1, 0, 0, 32); LangBtn.Text = "🌐 " .. Translations[CurrentLang].Lang; LangBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55); LangBtn.TextColor3 = Color3.fromRGB(255, 255, 255); LangBtn.Font = Enum.Font.GothamBold; LangBtn.TextSize = 10
 Instance.new("UICorner", LangBtn).CornerRadius = UDim.new(0, 6)
@@ -616,4 +577,4 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
-print("HubKill v11.0 ULTIMATE EDITION LOADED SUCCESSFULLY!")
+print("HubKill v12.0 LOADED SUCCESSFULLY!")
