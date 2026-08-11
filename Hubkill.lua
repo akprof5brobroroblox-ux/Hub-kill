@@ -578,5 +578,3 @@ RunService.RenderStepped:Connect(function()
 end)
 
 print("HubKill v12.0 LOADED SUCCESSFULLY!")
-?
-
