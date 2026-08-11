@@ -1,5 +1,5 @@
 -- ========================================================
--- HUBKILL MEGA PRO v5.0 - FIXED LOGIC & UNIVERSAL ESP
+-- HUBKILL MEGA PRO v5.1 - FIXED SYNTAX & LAUNCHER
 -- ========================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -108,79 +108,36 @@ Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.BackgroundTransparency = 1
 Title.Parent = Header
 
--- Кнопка 1: Зеленый кружок (Декор)
+-- Кнопки шапки
 local GreenDot = Instance.new("Frame")
-GreenDot.Size = UDim2.new(0, 12, 0, 12)
-GreenDot.Position = UDim2.new(1, -65, 0.5, -6)
-GreenDot.BackgroundColor3 = Color3.fromRGB(50, 205, 50)
-GreenDot.Parent = Header
+GreenDot.Size = UDim2.new(0, 12, 0, 12); GreenDot.Position = UDim2.new(1, -65, 0.5, -6); GreenDot.BackgroundColor3 = Color3.fromRGB(50, 205, 50); GreenDot.Parent = Header
 Instance.new("UICorner", GreenDot).CornerRadius = UDim.new(1, 0)
 
--- Кнопка 2: Желтый кружок (Сворачивает в синий квадрат)
 local YellowExitBtn = Instance.new("TextButton")
-YellowExitBtn.Size = UDim2.new(0, 14, 0, 14)
-YellowExitBtn.Position = UDim2.new(1, -45, 0.5, -7)
-YellowExitBtn.BackgroundColor3 = Color3.fromRGB(255, 190, 0)
-YellowExitBtn.Text = ""
-YellowExitBtn.Parent = Header
+YellowExitBtn.Size = UDim2.new(0, 14, 0, 14); YellowExitBtn.Position = UDim2.new(1, -45, 0.5, -7); YellowExitBtn.BackgroundColor3 = Color3.fromRGB(255, 190, 0); YellowExitBtn.Text = ""; YellowExitBtn.Parent = Header
 Instance.new("UICorner", YellowExitBtn).CornerRadius = UDim.new(1, 0)
 
--- Кнопка 3: Красный крестик (Вызывает окно подтверждения)
 local RedExitBtn = Instance.new("TextButton")
-RedExitBtn.Size = UDim2.new(0, 14, 0, 14)
-RedExitBtn.Position = UDim2.new(1, -25, 0.5, -7)
-RedExitBtn.BackgroundColor3 = Color3.fromRGB(230, 50, 50)
-RedExitBtn.Text = "✕"
-RedExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-RedExitBtn.TextSize = 9
-RedExitBtn.Font = Enum.Font.GothamBold
-RedExitBtn.Parent = Header
+RedExitBtn.Size = UDim2.new(0, 14, 0, 14); RedExitBtn.Position = UDim2.new(1, -25, 0.5, -7); RedExitBtn.BackgroundColor3 = Color3.fromRGB(230, 50, 50); RedExitBtn.Text = "✕"; RedExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255); RedExitBtn.TextSize = 9; RedExitBtn.Font = Enum.Font.GothamBold; RedExitBtn.Parent = Header
 Instance.new("UICorner", RedExitBtn).CornerRadius = UDim.new(1, 0)
 
 ---------------------------------------------------------
--- 3. ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА (ПО КРАСНОМУ КРЕСТИКУ)
+-- 3. ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА
 ---------------------------------------------------------
 local ConfirmFrame = Instance.new("Frame")
-ConfirmFrame.Size = UDim2.new(0, 220, 0, 110)
-ConfirmFrame.Position = UDim2.new(0.5, -110, 0.5, -55)
-ConfirmFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-ConfirmFrame.ZIndex = 20
-ConfirmFrame.Visible = false
-ConfirmFrame.Parent = ScreenGui
+ConfirmFrame.Size = UDim2.new(0, 220, 0, 110); ConfirmFrame.Position = UDim2.new(0.5, -110, 0.5, -55); ConfirmFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35); ConfirmFrame.ZIndex = 20; ConfirmFrame.Visible = false; ConfirmFrame.Parent = ScreenGui
 Instance.new("UICorner", ConfirmFrame).CornerRadius = UDim.new(0, 10)
-local ConfirmStroke = Instance.new("UIStroke", ConfirmFrame)
-ConfirmStroke.Color = Color3.fromRGB(230, 50, 50)
+local ConfirmStroke = Instance.new("UIStroke", ConfirmFrame); ConfirmStroke.Color = Color3.fromRGB(230, 50, 50)
 
 local ConfirmText = Instance.new("TextLabel")
-ConfirmText.Size = UDim2.new(1, 0, 0, 50)
-ConfirmText.Text = "Are you sure?"
-ConfirmText.TextColor3 = Color3.fromRGB(255, 255, 255)
-ConfirmText.Font = Enum.Font.GothamBold
-ConfirmText.TextSize = 14
-ConfirmText.BackgroundTransparency = 1
-ConfirmText.ZIndex = 21
-ConfirmText.Parent = ConfirmFrame
+ConfirmText.Size = UDim2.new(1, 0, 0, 50); ConfirmText.Text = "Are you sure?"; ConfirmText.TextColor3 = Color3.fromRGB(255, 255, 255); ConfirmText.Font = Enum.Font.GothamBold; ConfirmText.TextSize = 14; ConfirmText.BackgroundTransparency = 1; ConfirmText.ZIndex = 21; ConfirmText.Parent = ConfirmFrame
 
 local YesBtn = Instance.new("TextButton")
-YesBtn.Size = UDim2.new(0, 85, 0, 30)
-YesBtn.Position = UDim2.new(0.1, 0, 0.6, 0)
-YesBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-YesBtn.Text = "Yes (Exit)"
-YesBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-YesBtn.Font = Enum.Font.GothamBold
-YesBtn.ZIndex = 21
-YesBtn.Parent = ConfirmFrame
+YesBtn.Size = UDim2.new(0, 85, 0, 30); YesBtn.Position = UDim2.new(0.1, 0, 0.6, 0); YesBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50); YesBtn.Text = "Yes (Exit)"; YesBtn.TextColor3 = Color3.fromRGB(255, 255, 255); YesBtn.Font = Enum.Font.GothamBold; YesBtn.ZIndex = 21; YesBtn.Parent = ConfirmFrame
 Instance.new("UICorner", YesBtn).CornerRadius = UDim.new(0, 6)
 
 local NoBtn = Instance.new("TextButton")
-NoBtn.Size = UDim2.new(0, 85, 0, 30)
-NoBtn.Position = UDim2.new(0.55, 0, 0.6, 0)
-NoBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
-NoBtn.Text = "Keep"
-NoBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-NoBtn.Font = Enum.Font.GothamBold
-NoBtn.ZIndex = 21
-NoBtn.Parent = ConfirmFrame
+NoBtn.Size = UDim2.new(0, 85, 0, 30); NoBtn.Position = UDim2.new(0.55, 0, 0.6, 0); NoBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50); NoBtn.Text = "Keep"; NoBtn.TextColor3 = Color3.fromRGB(255, 255, 255); NoBtn.Font = Enum.Font.GothamBold; NoBtn.ZIndex = 21; NoBtn.Parent = ConfirmFrame
 Instance.new("UICorner", NoBtn).CornerRadius = UDim.new(0, 6)
 
 RedExitBtn.MouseButton1Click:Connect(function() ConfirmFrame.Visible = true end)
@@ -204,52 +161,30 @@ end)
 -- 4. БОКОВАЯ ПАНЕЛЬ И СТРАНИЦЫ
 ---------------------------------------------------------
 local SideBar = Instance.new("Frame")
-SideBar.Size = UDim2.new(0, 115, 1, -35)
-SideBar.Position = UDim2.new(0, 0, 0, 35)
-SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
-SideBar.BorderSizePixel = 0
-SideBar.Parent = MainFrame
-
+SideBar.Size = UDim2.new(0, 115, 1, -35); SideBar.Position = UDim2.new(0, 0, 0, 35); SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28); SideBar.BorderSizePixel = 0; SideBar.Parent = MainFrame
 Instance.new("UIListLayout", SideBar).Padding = UDim.new(0, 5)
 
 local ContentArea = Instance.new("Frame")
-ContentArea.Size = UDim2.new(1, -125, 1, -43)
-ContentArea.Position = UDim2.new(0, 120, 0, 38)
-ContentArea.BackgroundTransparency = 1
-ContentArea.Parent = MainFrame
+ContentArea.Size = UDim2.new(1, -125, 1, -43); ContentArea.Position = UDim2.new(0, 120, 0, 38); ContentArea.BackgroundTransparency = 1; ContentArea.Parent = MainFrame
 
 local Pages = {}
 local TabButtons = {}
 
 local function CreateTab(key, iconText, targetPageName)
     local Page = Instance.new("ScrollingFrame")
-    Page.Name = targetPageName
-    Page.Size = UDim2.new(1, -5, 1, 0)
-    Page.BackgroundTransparency = 1
-    Page.Visible = false
-    Page.ZIndex = 2
-    Page.CanvasSize = UDim2.new(0, 0, 0, 400)
-    Page.Parent = ContentArea
+    Page.Name = targetPageName; Page.Size = UDim2.new(1, -5, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 2; Page.CanvasSize = UDim2.new(0, 0, 0, 400); Page.Parent = ContentArea
     Instance.new("UIListLayout", Page).Padding = UDim.new(0, 8)
     Pages[targetPageName] = Page
 
     local Btn = Instance.new("TextButton")
-    Btn.Size = UDim2.new(1, 0, 0, 32)
-    Btn.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
-    Btn.Text = iconText .. " " .. (Translations[CurrentLang][key] or key)
-    Btn.TextColor3 = Color3.fromRGB(160, 160, 175)
-    Btn.Font = Enum.Font.GothamMedium
-    Btn.TextSize = 10
-    Btn.Parent = SideBar
+    Btn.Size = UDim2.new(1, 0, 0, 32); Btn.BackgroundColor3 = Color3.fromRGB(28, 28, 38); Btn.Text = iconText .. " " .. (Translations[CurrentLang][key] or key); Btn.TextColor3 = Color3.fromRGB(160, 160, 175); Btn.Font = Enum.Font.GothamMedium; Btn.TextSize = 10; Btn.Parent = SideBar
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
     TabButtons[targetPageName] = {Button = Btn, Key = key, Icon = iconText}
     
     Btn.MouseButton1Click:Connect(function()
         for name, p in pairs(Pages) do 
             p.Visible = false 
-            if TabButtons[name] then
-                TabButtons[name].Button.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
-            end
+            if TabButtons[name] then TabButtons[name].Button.BackgroundColor3 = Color3.fromRGB(28, 28, 38) end
         end
         Page.Visible = true
         Btn.BackgroundColor3 = CurrentAccent
@@ -272,28 +207,15 @@ local TogglesList = {}
 
 local function AddToggle(page, dictKey, settingKey, desc)
     local Container = Instance.new("Frame")
-    Container.Size = UDim2.new(1, -10, 0, desc and 52 or 32)
-    Container.BackgroundTransparency = 1
-    Container.Parent = page
+    Container.Size = UDim2.new(1, -10, 0, desc and 52 or 32); Container.BackgroundTransparency = 1; Container.Parent = page
 
     local Switch = Instance.new("TextButton")
-    Switch.Size = UDim2.new(1, 0, 0, 32)
-    Switch.Font = Enum.Font.GothamBold
-    Switch.TextSize = 11
-    Switch.Parent = Container
+    Switch.Size = UDim2.new(1, 0, 0, 32); Switch.Font = Enum.Font.GothamBold; Switch.TextSize = 11; Switch.Parent = Container
     Instance.new("UICorner", Switch).CornerRadius = UDim.new(0, 6)
 
     if desc then
         local DescLabel = Instance.new("TextLabel")
-        DescLabel.Size = UDim2.new(1, 0, 0, 18)
-        DescLabel.Position = UDim2.new(0, 0, 0, 33)
-        DescLabel.Text = desc
-        DescLabel.TextColor3 = Color3.fromRGB(150, 150, 160)
-        DescLabel.Font = Enum.Font.Gotham
-        DescLabel.TextSize = 9
-        DescLabel.TextXAlignment = Enum.TextXAlignment.Left
-        DescLabel.BackgroundTransparency = 1
-        DescLabel.Parent = Container
+        DescLabel.Size = UDim2.new(1, 0, 0, 18); DescLabel.Position = UDim2.new(0, 0, 0, 33); DescLabel.Text = desc; DescLabel.TextColor3 = Color3.fromRGB(150, 150, 160); DescLabel.Font = Enum.Font.Gotham; DescLabel.TextSize = 9; DescLabel.TextXAlignment = Enum.TextXAlignment.Left; DescLabel.BackgroundTransparency = 1; DescLabel.Parent = Container
     end
 
     local function UpdateVisual()
@@ -317,7 +239,6 @@ local function AddToggle(page, dictKey, settingKey, desc)
     end)
 end
 
--- Добавляем функции на страницы
 AddToggle(CharPage, "Aim", "AimLock")
 AddToggle(CharPage, "Jump", "InfJump")
 
@@ -330,24 +251,14 @@ AddToggle(EspPage, "Sher", "ESP_Sher")
 AddToggle(EspPage, "Inn", "ESP_Inn")
 
 ---------------------------------------------------------
--- ⚙ НАСТРОЙКИ: ВЫБОР ЯЗЫКА (10 СТРАН)
+-- ⚙ НАСТРОЙКИ: ВЫБОР ЯЗЫКА
 ---------------------------------------------------------
 local LangBtn = Instance.new("TextButton")
-LangBtn.Size = UDim2.new(1, -10, 0, 30)
-LangBtn.Text = "🌐 " .. Translations[CurrentLang].Lang
-LangBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55)
-LangBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-LangBtn.Font = Enum.Font.GothamBold
-LangBtn.Parent = SettingsPage
+LangBtn.Size = UDim2.new(1, -10, 0, 30); LangBtn.Text = "🌐 " .. Translations[CurrentLang].Lang; LangBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 55); LangBtn.TextColor3 = Color3.fromRGB(255, 255, 255); LangBtn.Font = Enum.Font.GothamBold; LangBtn.Parent = SettingsPage
 Instance.new("UICorner", LangBtn).CornerRadius = UDim.new(0, 6)
 
 local Popup = Instance.new("ScrollingFrame")
-Popup.Size = UDim2.new(0, 140, 0, 100)
-Popup.Position = UDim2.new(0.5, -70, 0.5, -50)
-Popup.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-Popup.ZIndex = 15
-Popup.Visible = false
-Popup.Parent = ContentArea
+Popup.Size = UDim2.new(0, 140, 0, 100); Popup.Position = UDim2.new(0.5, -70, 0.5, -50); Popup.BackgroundColor3 = Color3.fromRGB(30, 30, 40); Popup.ZIndex = 15; Popup.Visible = false; Popup.Parent = ContentArea
 Instance.new("UIListLayout", Popup)
 
 LangBtn.MouseButton1Click:Connect(function()
@@ -364,13 +275,7 @@ LangBtn.MouseButton1Click:Connect(function()
     
     for _, c in ipairs(countries) do
         local b = Instance.new("TextButton")
-        b.Size = UDim2.new(1,0,0,22)
-        b.Text = c.Name
-        b.TextColor3 = Color3.fromRGB(255,255,255)
-        b.Font = Enum.Font.Gotham
-        b.TextSize = 10
-        b.ZIndex = 16
-        b.Parent = Popup
+        b.Size = UDim2.new(1,0,0,22); b.Text = c.Name; b.TextColor3 = Color3.fromRGB(255,255,255); b.Font = Enum.Font.Gotham; b.TextSize = 10; b.ZIndex = 16; b.Parent = Popup
         
         b.MouseButton1Click:Connect(function()
             CurrentLang = c.Code
@@ -386,7 +291,7 @@ LangBtn.MouseButton1Click:Connect(function()
 end)
 
 ---------------------------------------------------------
--- ЛОГИКА MM2 И ИГРЫ (ОБНОВЛЕННАЯ & РАБОЧАЯ)
+-- ЛОГИКА MM2 И ИГРЫ
 ---------------------------------------------------------
 
 -- 1. AimLock
@@ -412,7 +317,7 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
--- 3. ESP (УНИВЕРСАЛЬНЫЙ BILLBOARD GUI)
+-- 3. ESP (BillboardGui)
 RunService.Heartbeat:Connect(function()
     for _, p in pairs(Players:GetPlayers()) do
         if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
@@ -460,12 +365,20 @@ RunService.RenderStepped:Connect(function()
         end
 
         if murderer and murderer.Character and murderer.Character:FindFirstChild("HumanoidRootPart") then
-            -- Проверка на Нож в руке
             if _G.HubKill_Settings.ShootKnifeOnly and not murderer.Character:FindFirstChild("Knife") then
                 return
             end
 
             local targetPos = murderer.Character.HumanoidRootPart.Position
 
-            -- Silent Aim (Прицел ведет сквозь стены)
-        
+            if _G.HubKill_Settings.SilentAim then
+                Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPos)
+            end
+
+            local gun = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Gun")
+            if gun then
+                if not gun:FindFirstChild("CooldownTag") then
+                    gun:Activate()
+                    local tag = Instance.new("Folder", gun)
+                    tag.Name = "CooldownTag"
+ 
