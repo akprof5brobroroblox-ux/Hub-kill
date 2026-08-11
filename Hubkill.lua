@@ -1,5 +1,5 @@
 -- ========================================================
--- HUBKILL MEGA PRO v16.0 - DELTA EDITION (ALL-IN-ONE)
+-- HUBKILL MEGA PRO v18.0 - AUTO-RESPAWN VISUAL EFFECTS FIX
 -- ========================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -29,7 +29,7 @@ local CurrentThemeBg = Color3.fromRGB(16, 16, 22)
 local CurrentLang = "RU"
 
 _G.HubKill_Settings = {
-    AimLock = false, InfJump = false, SpeedGlitch = false, AutoWallhop = false,
+    AimLock = false, InfJump = false, SpeedGlitch = false,
     ESP_Murd = false, ESP_Sher = false, ESP_Inn = false,
     AimShot = false, ShootKnifeOnly = false, SilentAim = false,
     WalkSpeed = 16, JumpPower = 50,
@@ -38,16 +38,16 @@ _G.HubKill_Settings = {
 }
 
 local Translations = {
-    RU = {Title="Персонаж", ESP="ESP", Settings="Настройки", Sheriff="Шериф", Visuals="Визуалы", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Язык / Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Счетчик FPS", Boost="Убрать лаги (Boost)", AntiFling="Анти-Флинг", AntiAFK="Анти-АФК"},
-    EN = {Title="Character", ESP="ESP", Settings="Settings", Sheriff="Sheriff", Visuals="Visuals", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="FPS Counter", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    ES = {Title="Personaje", ESP="ESP", Settings="Ajustes", Sheriff="Alguacil", Visuals="Visuales", Aim="AimLock", Jump="InfJump", Murd="Asesino ESP", Sher="Alguacil ESP", Inn="Inocente ESP", Lang="Idioma", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Contador FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    DE = {Title="Charakter", ESP="ESP", Settings="Einstellungen", Sheriff="Sheriff", Visuals="Visuelles", Aim="AimLock", Jump="InfJump", Murd="Mörder ESP", Sher="Sheriff ESP", Inn="Unschuldig ESP", Lang="Sprache", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="FPS Zähler", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    FR = {Title="Personnage", ESP="ESP", Settings="Paramètres", Sheriff="Chérif", Visuals="Visuels", Aim="AimLock", Jump="InfJump", Murd="Meurtrier ESP", Sher="Chérif ESP", Inn="Inocent ESP", Lang="Langue", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Compteur FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    PT = {Title="Personagem", ESP="ESP", Settings="Configurações", Sheriff="Xerife", Visuals="Visuais", Aim="AimLock", Jump="InfJump", Murd="Assassino ESP", Sher="Xerife ESP", Inn="Inocente ESP", Lang="Idioma", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Contador FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    TR = {Title="Karakter", ESP="ESP", Settings="Ayarlar", Sheriff="Şerif", Visuals="Görseller", Aim="AimLock", Jump="InfJump", Murd="Katil ESP", Sher="Şerif ESP", Inn="Masum ESP", Lang="Dil", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="FPS Sayacı", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    VI = {Title="Nhân vật", ESP="ESP", Settings="Cài đặt", Sheriff="Cảnh sát", Visuals="Hình ảnh", Aim="AimLock", Jump="InfJump", Murd="Sát thủ ESP", Sher="Cảnh sát ESP", Inn="Dân thường ESP", Lang="Ngôn ngữ", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Bộ đếm FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    ID = {Title="Karakter", ESP="ESP", Settings="Pengaturan", Sheriff="Deputi", Visuals="Visual", Aim="AimLock", Jump="InfJump", Murd="Pembunuh ESP", Sher="Deputi ESP", Inn="Warga ESP", Lang="Bahasa", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Penghitung FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
-    PL = {Title="Postać", ESP="ESP", Settings="Ustawienia", Sheriff="Szeryf", Visuals="Wizualia", Aim="AimLock", Jump="InfJump", Murd="Morderca ESP", Sher="Szeryf ESP", Inn="Niewinny ESP", Lang="Język", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", Wallhop="Auto Wallhop", FPS="Licznik FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"}
+    RU = {Title="Персонаж", Skins="Скины", ESP="ESP", Settings="Настройки", Sheriff="Шериф", Visuals="Визуалы", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Язык / Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Счетчик FPS", Boost="Убрать лаги (Boost)", AntiFling="Анти-Флинг", AntiAFK="Анти-АФК"},
+    EN = {Title="Character", Skins="Skins", ESP="ESP", Settings="Settings", Sheriff="Sheriff", Visuals="Visuals", Aim="AimLock", Jump="InfJump", Murd="Murderer ESP", Sher="Sheriff ESP", Inn="Innocent ESP", Lang="Language", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="FPS Counter", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    ES = {Title="Personaje", Skins="Skins", ESP="ESP", Settings="Ajustes", Sheriff="Alguacil", Visuals="Visuales", Aim="AimLock", Jump="InfJump", Murd="Asesino ESP", Sher="Alguacil ESP", Inn="Inocente ESP", Lang="Idioma", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Contador FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    DE = {Title="Charakter", Skins="Skins", ESP="ESP", Settings="Einstellungen", Sheriff="Sheriff", Visuals="Visuelles", Aim="AimLock", Jump="InfJump", Murd="Mörder ESP", Sher="Sheriff ESP", Inn="Unschuldig ESP", Lang="Sprache", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="FPS Zähler", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    FR = {Title="Personnage", Skins="Skins", ESP="ESP", Settings="Paramètres", Sheriff="Chérif", Visuals="Visuels", Aim="AimLock", Jump="InfJump", Murd="Meurtrier ESP", Sher="Chérif ESP", Inn="Inocent ESP", Lang="Langue", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Compteur FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    PT = {Title="Personagem", Skins="Skins", ESP="ESP", Settings="Configurações", Sheriff="Xerife", Visuals="Visuais", Aim="AimLock", Jump="InfJump", Murd="Assassino ESP", Sher="Xerife ESP", Inn="Inocente ESP", Lang="Idioma", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Contador FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    TR = {Title="Karakter", Skins="Skins", ESP="ESP", Settings="Ayarlar", Sheriff="Şerif", Visuals="Görseller", Aim="AimLock", Jump="InfJump", Murd="Katil ESP", Sher="Şerif ESP", Inn="Masum ESP", Lang="Dil", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="FPS Sayacı", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    VI = {Title="Nhân vật", Skins="Skins", ESP="ESP", Settings="Cài đặt", Sheriff="Cảnh sát", Visuals="Hình ảnh", Aim="AimLock", Jump="InfJump", Murd="Sát thủ ESP", Sher="Cảnh sát ESP", Inn="Dân thường ESP", Lang="Ngôn ngữ", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Bộ đếm FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    ID = {Title="Karakter", Skins="Skins", ESP="ESP", Settings="Pengaturan", Sheriff="Deputi", Visuals="Visual", Aim="AimLock", Jump="InfJump", Murd="Pembunuh ESP", Sher="Deputi ESP", Inn="Warga ESP", Lang="Bahasa", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Penghitung FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"},
+    PL = {Title="Postać", Skins="Skins", ESP="ESP", Settings="Ustawienia", Sheriff="Szeryf", Visuals="Wizualia", Aim="AimLock", Jump="InfJump", Murd="Morderca ESP", Sher="Szeryf ESP", Inn="Niewinny ESP", Lang="Język", AimShot="Aim Shot", KnifeCheck="Knife Check", SilentAim="Silent Aim", SpeedGlitch="Speed Glitch", FPS="Licznik FPS", Boost="FPS Boost", AntiFling="Anti-Fling", AntiAFK="Anti-AFK"}
 }
 
 local function CreateStarEffect(btn)
@@ -62,7 +62,6 @@ ToggleBtn.Name = "OpenIcon"; ToggleBtn.Parent = ScreenGui; ToggleBtn.BackgroundC
 Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(0, 10)
 local ToggleStroke = Instance.new("UIStroke", ToggleBtn); ToggleStroke.Color = CurrentAccent; ToggleStroke.Thickness = 2
 
--- Щит для блокировки кликов по миру, когда меню открыто
 local WorldBlocker = Instance.new("TextButton")
 WorldBlocker.Name = "WorldBlocker"; WorldBlocker.Parent = ScreenGui; WorldBlocker.Size = UDim2.new(1, 0, 1, 0); WorldBlocker.BackgroundTransparency = 1; WorldBlocker.Text = ""; WorldBlocker.Visible = false; WorldBlocker.ZIndex = 1
 
@@ -75,7 +74,7 @@ local Header = Instance.new("Frame")
 Header.Size = UDim2.new(1, 0, 0, 35); Header.BackgroundColor3 = Color3.fromRGB(22, 22, 30); Header.BorderSizePixel = 0; Header.ZIndex = 11; Header.Parent = MainFrame
 
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -90, 1, 0); Title.Position = UDim2.new(0, 12, 0, 0); Title.Text = "HubKill Mega Pro v16.0"; Title.TextColor3 = Color3.fromRGB(255, 255, 255); Title.Font = Enum.Font.GothamBold; Title.TextSize = 15; Title.TextXAlignment = Enum.TextXAlignment.Left; Title.BackgroundTransparency = 1; Title.ZIndex = 12; Title.Parent = Header
+Title.Size = UDim2.new(1, -90, 1, 0); Title.Position = UDim2.new(0, 12, 0, 0); Title.Text = "HubKill Mega Pro v18.0"; Title.TextColor3 = Color3.fromRGB(255, 255, 255); Title.Font = Enum.Font.GothamBold; Title.TextSize = 15; Title.TextXAlignment = Enum.TextXAlignment.Left; Title.BackgroundTransparency = 1; Title.ZIndex = 12; Title.Parent = Header
 
 local GreenDot = Instance.new("Frame"); GreenDot.Size = UDim2.new(0, 12, 0, 12); GreenDot.Position = UDim2.new(1, -65, 0.5, -6); GreenDot.BackgroundColor3 = Color3.fromRGB(50, 205, 50); GreenDot.ZIndex = 12; GreenDot.Parent = Header
 Instance.new("UICorner", GreenDot).CornerRadius = UDim.new(1, 0)
@@ -130,7 +129,7 @@ local TabButtons = {}
 
 local function CreateTab(key, iconText, targetPageName)
     local Page = Instance.new("ScrollingFrame")
-    Page.Name = targetPageName; Page.Size = UDim2.new(1, -5, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 12; Page.CanvasSize = UDim2.new(0, 0, 0, 1500); Page.Parent = ContentArea
+    Page.Name = targetPageName; Page.Size = UDim2.new(1, -5, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false; Page.ZIndex = 12; Page.CanvasSize = UDim2.new(0, 0, 0, 1600); Page.Parent = ContentArea
     
     local list = Instance.new("UIListLayout", Page)
     list.SortOrder = Enum.SortOrder.LayoutOrder
@@ -152,6 +151,7 @@ local function CreateTab(key, iconText, targetPageName)
 end
 
 local CharPage = CreateTab("Title", "👤", "Character")
+local SkinsPage = CreateTab("Skins", "🔪", "Skins")
 local SheriffPage = CreateTab("Sheriff", "🤠", "Sheriff")
 local EspPage = CreateTab("ESP", "👁", "ESP")
 local VisualPage = CreateTab("Visuals", "🎨", "Visuals")
@@ -186,7 +186,6 @@ end
 AddToggle(CharPage, "Aim", "AimLock")
 AddToggle(CharPage, "Jump", "InfJump")
 AddToggle(CharPage, "SpeedGlitch", "SpeedGlitch")
-AddToggle(CharPage, "Wallhop", "AutoWallhop")
 
 local SpeedBtn = Instance.new("TextButton", CharPage)
 SpeedBtn.Size = UDim2.new(1, -10, 0, 32); SpeedBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 60); SpeedBtn.Text = "⚡ Speed: 30"; SpeedBtn.TextColor3 = Color3.fromRGB(255, 255, 255); SpeedBtn.Font = Enum.Font.GothamBold; SpeedBtn.TextSize = 10; SpeedBtn.ZIndex = 13; SpeedBtn.Parent = CharPage
@@ -202,6 +201,49 @@ SpeedBtn.MouseButton1Click:Connect(function()
     end
 end)
 
+---------------------------------------------------------
+-- ВКЛАДКА "СКИНЫ" (MM2 GODLIES)
+---------------------------------------------------------
+local function AddSkinHeader(text)
+    local lbl = Instance.new("TextLabel", SkinsPage)
+    lbl.Size = UDim2.new(1, -10, 0, 24); lbl.BackgroundTransparency = 1; lbl.Text = text; lbl.TextColor3 = Color3.fromRGB(255, 215, 0); lbl.Font = Enum.Font.GothamBold; lbl.TextSize = 11; lbl.TextXAlignment = Enum.TextXAlignment.Left; lbl.ZIndex = 13
+end
+
+AddSkinHeader("🌟 Легендарные ножи (Godlies / Chromas)")
+local function AddSkinBtn(name, isKnife)
+    local btn = Instance.new("TextButton", SkinsPage); btn.Size = UDim2.new(1, -10, 0, 32); btn.BackgroundColor3 = Color3.fromRGB(40, 30, 60); btn.Text = "🔪 Выдать скин: " .. name; btn.TextColor3 = Color3.fromRGB(255, 255, 255); btn.Font = Enum.Font.GothamMedium; btn.TextSize = 9; btn.ZIndex = 13
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+    
+    btn.MouseButton1Click:Connect(function()
+        CreateStarEffect(btn)
+        local tool = Instance.new("Tool"); tool.Name = "[Skins] " .. name; tool.RequiresHandle = true
+        local handle = Instance.new("Part", tool); handle.Name = "Handle"; handle.Size = Vector3.new(1, 2, 1)
+        local mesh = Instance.new("SpecialMesh", handle); mesh.MeshType = Enum.MeshType.FileMesh
+        
+        if isKnife then
+            handle.Color = Color3.fromRGB(255, 50, 100)
+            mesh.MeshId = "rbxassetid://121944778"
+        else
+            handle.Color = Color3.fromRGB(100, 150, 255)
+            mesh.MeshId = "rbxassetid://43132201"
+        end
+        tool.Parent = LocalPlayer.Backpack
+    end)
+end
+
+AddSkinBtn("Chroma Candleflame", true)
+AddSkinBtn("Corrupt Knife", true)
+AddSkinBtn("Elderwood Scythe", true)
+AddSkinBtn("Hallow's Edge", true)
+AddSkinBtn("Bat Knife", true)
+AddSkinBtn("Candy Knife", true)
+
+AddSkinHeader("🔫 Легендарные пистолеты")
+AddSkinBtn("Corrupt Gun", false)
+AddSkinBtn("Laser Gun", false)
+AddSkinBtn("Elderwood Revolver", false)
+AddSkinBtn("Luger Gun", false)
+
 AddToggle(SheriffPage, "AimShot", "AimShot")
 AddToggle(SheriffPage, "KnifeCheck", "ShootKnifeOnly")
 AddToggle(SheriffPage, "SilentAim", "SilentAim")
@@ -209,6 +251,50 @@ AddToggle(SheriffPage, "SilentAim", "SilentAim")
 AddToggle(EspPage, "Murd", "ESP_Murd")
 AddToggle(EspPage, "Sher", "ESP_Sher")
 AddToggle(EspPage, "Inn", "ESP_Inn")
+
+---------------------------------------------------------
+-- ФУНКЦИЯ ПРИМЕНЕНИЯ ЭФФЕКТОВ (С АВТО-ПЕРЕЗАГРУЗКОЙ)
+---------------------------------------------------------
+local function ApplyVisualEffects(char)
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+    local hrp = char.HumanoidRootPart
+
+    -- Убираем старые эффекты если были
+    if hrp:FindFirstChild("HubEffect") then hrp.HubEffect:Destroy() end
+
+    local effType = _G.HubKill_Settings.ActiveVisual
+    if effType ~= "None" then
+        local folder = Instance.new("Folder", hrp); folder.Name = "HubEffect"
+        local p = Instance.new("ParticleEmitter", folder)
+        p.Texture = "rbxassetid://258129202"
+        p.Rate = 20
+        p.Lifetime = NumberRange.new(1, 1.5)
+        p.Size = NumberSequence.new(3, 4)
+        p.Transparency = NumberSequence.new(0, 1)
+        
+        if effType == "AngelWings" then
+            p.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255))
+        elseif effType == "DemonWings" then
+            p.Color = ColorSequence.new(Color3.fromRGB(220, 20, 60))
+        elseif effType == "Planets" then
+            p.Color = ColorSequence.new(Color3.fromRGB(0, 191, 255))
+        elseif effType == "GhostAura" then
+            p.Color = ColorSequence.new(Color3.fromRGB(138, 43, 226))
+        elseif effType == "Lightning" then
+            p.Color = ColorSequence.new(Color3.fromRGB(255, 215, 0))
+            p.Rate = 40
+        elseif effType == "Crown" then
+            p.Color = ColorSequence.new(Color3.fromRGB(255, 215, 0))
+        end
+    end
+end
+
+-- Следим за респавном игрока, чтобы эффекты не пропадали после смерти
+LocalPlayer.CharacterAdded:Connect(function(newChar)
+    newChar:WaitForChild("HumanoidRootPart")
+    task.wait(0.5)
+    ApplyVisualEffects(newChar)
+end)
 
 ---------------------------------------------------------
 -- ВИЗУАЛЫ (4 РЯДА)
@@ -282,23 +368,13 @@ AddEmoteBtn("🪑 Эмоция: Sit", "250622329")
 AddEmoteBtn("🕺 Эмоция: Dance", "182436842")
 
 AddSectionHeader(VisualPage, "✨ 4. Аура и эффекты под ногами")
-local function RemoveCurrentVisual()
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        local hrp = LocalPlayer.Character.HumanoidRootPart
-        if hrp:FindFirstChild("HubEffect") then hrp.HubEffect:Destroy() end
-    end
-end
-
 local function AddVisualBtn(text, effType)
     local btn = Instance.new("TextButton", VisualPage); btn.Size = UDim2.new(1, -10, 0, 32); btn.BackgroundColor3 = Color3.fromRGB(35, 35, 45); btn.Text = text; btn.TextColor3 = Color3.fromRGB(255, 255, 255); btn.Font = Enum.Font.Gotham; btn.TextSize = 9; btn.ZIndex = 13
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 5)
     btn.MouseButton1Click:Connect(function()
-        CreateStarEffect(btn); RemoveCurrentVisual(); _G.HubKill_Settings.ActiveVisual = effType
-        if effType == "None" then return end
-        local char = LocalPlayer.Character; if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-        local folder = Instance.new("Folder", char.HumanoidRootPart); folder.Name = "HubEffect"
-        local p = Instance.new("ParticleEmitter", folder)
-        p.Texture = "rbxassetid://258129202"; p.Rate = 15; p.Lifetime = NumberRange.new(1, 1.5); p.Size = NumberSequence.new(3, 4)
+        CreateStarEffect(btn)
+        _G.HubKill_Settings.ActiveVisual = effType
+        ApplyVisualEffects(LocalPlayer.Character)
     end)
 end
 AddVisualBtn("👼 Ангел", "AngelWings")
@@ -307,9 +383,10 @@ AddVisualBtn("🪐 Планеты", "Planets")
 AddVisualBtn("👻 Призрак", "GhostAura")
 AddVisualBtn("⚡ Шторм", "Lightning")
 AddVisualBtn("👑 Корона", "Crown")
+AddVisualBtn("❌ Выключить эффекты", "None")
 
 ---------------------------------------------------------
--- НАСТРОЙКИ (ВКЛЮЧАЯ АНТИ-ФЛИНГ И АНТИ-АФК)
+-- НАСТРОЙКИ
 ---------------------------------------------------------
 AddToggle(SettingsPage, "FPS", "FPS_Counter")
 AddToggle(SettingsPage, "Boost", "FPS_Boost")
@@ -337,7 +414,6 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- Логика Анти-Флинга (сбрасывает скорость, если пытаются выкинуть читером)
 RunService.Stepped:Connect(function()
     if _G.HubKill_Settings.AntiFling and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
         local hrp = LocalPlayer.Character.HumanoidRootPart
@@ -347,7 +423,6 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- Логика Анти-АФК для Delta
 LocalPlayer.Idled:Connect(function()
     if _G.HubKill_Settings.AntiAFK then
         VirtualUser:Button2Down(Vector2.new(0,0), Camera.CFrame)
@@ -393,27 +468,18 @@ LangBtn.MouseButton1Click:Connect(function()
 end)
 
 ---------------------------------------------------------
--- ИГРОВАЯ ЛОГИКА (AIM, WALLHOP, ESP, AIMSHOT)
+-- ИГРОВАЯ ЛОГИКА
 ---------------------------------------------------------
 UserInputService.JumpRequest:Connect(function()
     if LocalPlayer.Character then
         local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
         local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-        if (_G.HubKill_Settings.InfJump or _G.HubKill_Settings.AutoWallhop) and hum then 
+        if _G.HubKill_Settings.InfJump and hum then 
             hum:ChangeState("Jumping") 
         end
         if _G.HubKill_Settings.SpeedGlitch and hrp then
-            hrp.AssemblyLinearVelocity = Vector3.new(Camera.CFrame.LookVector.X * 120, 60, Camera.CFrame.LookVector.Z * 120)
-        end
-    end
-end)
-
--- Авто-Валхоп (повторяет прыжки, если функция включена)
-RunService.RenderStepped:Connect(function()
-    if _G.HubKill_Settings.AutoWallhop and LocalPlayer.Character then
-        local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-        if hum then
-            hum:ChangeState(Enum.HumanoidStateType.Jumping)
+            local lookV = Camera.CFrame.LookVector
+            hrp.AssemblyLinearVelocity = Vector3.new(lookV.X * 100, 50, lookV.Z * 100)
         end
     end
 end)
@@ -484,4 +550,4 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
-print("HubKill v16.0 DELTA EDITION LOADED SUCCESSFULLY!")
+print("HubKill v18.0 LOADED SUCCESSFULLY!")
